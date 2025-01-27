@@ -1,20 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// import React from 'react';
+import './App.css';
+import { PrimeReactProvider } from 'primereact/api'; // PrimeReact Context Provider
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Routing components
+import SignUp from './components/SingUp'; // SignUp component
+import AddCustomers from './components/B/AddCustomers'; // CreateCompany component
+// import CreateCompany from './components/B/CreateCompany'; // CreateCompany component
 
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import SignUp from "./components/SingUp";
 const App: React.FC = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<SignUp />} />
-        {/* <Route path="/about" element={<AboutPage />} />
-        <Route path="*" element={<NotFoundPage />} /> */}
-      </Routes>
-    </Router>
+    <PrimeReactProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<SignUp />} />
+          <Route path="/AddCustomers" element={<AddCustomers />} />
+          {/* <Route path="/CreateCompany" element={<CreateCompany />} /> */}
+          {/* Add more routes as needed */}
+        </Routes>
+      </Router>
+    </PrimeReactProvider>
   );
 };
 
