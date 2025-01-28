@@ -4,11 +4,16 @@ body {
     font-family: 'Inter', sans-serif;
     background-color: #f9fbfc;
     color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
   
+  /* Setup Success Container */
   .setup-success {
     display: flex;
     flex-direction: column;
+    width: 100%;
     height: 100vh;
   }
   
@@ -18,43 +23,11 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    border-bottom: 1px solid #e5e7eb;
-    background-color: #ffffff;
-  }
-  
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
   }
   
   .logo-image {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .logo-text {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #6d28d9;
-  }
-  
-  .user-info {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  
-  .user-avatar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #4f46e5;
-    color: #ffffff;
-    font-weight: 600;
+    width: 189.17px;
+    height: 50px;
   }
   
   .user-details {
@@ -79,6 +52,7 @@ body {
     justify-content: center;
     align-items: center;
     flex: 1;
+    padding: 2rem;
   }
   
   .card {
@@ -91,15 +65,9 @@ body {
     width: 100%;
   }
   
-  .icon-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1rem;
-  }
-  
   .success-icon {
-    width: 80px;
-    height: 80px;
+    width: 265.59px;
+    height: 237.19px;
   }
   
   .title {
@@ -115,22 +83,6 @@ body {
     margin-bottom: 1.5rem;
   }
   
-  .dashboard-button {
-    background-color: #4f46e5;
-    color: #ffffff;
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .dashboard-button:hover {
-    background-color: #4338ca;
-  }
-  
   /* Floating Chat Icon */
   .chat-icon {
     position: fixed;
@@ -138,17 +90,10 @@ body {
     right: 2rem;
     width: 60px;
     height: 60px;
-    background-color: #4f46e5;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .chat-icon img {
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
   }
   
