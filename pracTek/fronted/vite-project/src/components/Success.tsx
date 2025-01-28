@@ -1,7 +1,7 @@
-import React from "react";
+// import React from "react";
 import { Card } from "primereact/card";
 import "./style/Success.css";
-import Header from "./MSP/Header";
+import Header from "./DTC/Header";
 import chat from "./icons/chat.png";
 import { Button } from "primereact/button";
 import success from "./icons/succsess.png";

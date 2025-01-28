@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import 'primereact/resources/themes/lara-light-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
@@ -11,7 +12,7 @@ import { Avatar } from 'primereact/avatar';
 import '../style/AddCustomers.css';
 import { FileUploadHandlerEvent } from 'primereact/fileupload';
 import { DropdownChangeEvent } from 'primereact/dropdown';
-import { Navigate } from 'react-router-dom';
+import Header from './Header';
 
 interface Country {
     name: string;
@@ -21,6 +22,12 @@ interface Country {
 }
 
 const AddCustomersForm = () => {
+
+    const navigate = useNavigate();
+
+    const handleNavigation = () => {
+        navigate("/CreateCompany", { state: { credentials: [] }, replace: true });
+    };
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -113,6 +120,7 @@ const AddCustomersForm = () => {
     };
 
     return (
+        <><Header />
         <form onSubmit={handleSubmit}>
             <Card
                 title="Add New Customer"
@@ -218,11 +226,7 @@ const AddCustomersForm = () => {
                         icon="pi pi-arrow-left"
                         className="custom-blue-button"
                         type="button"
-                        onClick={() => {
-                            <Navigate to="/CreateCompany"
-                             state={{credentials: []}} replace = {true}
-                            />
-                        }}
+                        onClick={handleNavigation}
                     />
                     <Button
                         label="Save"
@@ -233,7 +237,7 @@ const AddCustomersForm = () => {
                     />
                 </div>
             </Card>
-        </form>
+        </form></>
     );
 };
 
