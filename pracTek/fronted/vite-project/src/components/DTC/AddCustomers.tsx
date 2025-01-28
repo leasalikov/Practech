@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import 'primereact/resources/themes/lara-light-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
@@ -11,7 +12,6 @@ import { Avatar } from 'primereact/avatar';
 import '../style/AddCustomers.css';
 import { FileUploadHandlerEvent } from 'primereact/fileupload';
 import { DropdownChangeEvent } from 'primereact/dropdown';
-import { Navigate } from 'react-router-dom';
 
 interface Country {
     name: string;
@@ -21,11 +21,14 @@ interface Country {
 }
 
 const AddCustomersForm = () => {
+    const location = useLocation();
+    const { userData } = location.state || {}; // קבלת הנתונים
+
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
+        firstName: userData?.firstName || '',
+        lastName: userData?.lastName || '',
+        email: userData?.emailOrPhone || '',
+        phoneNumber: '', // אתה יכול להוסיף כאן לוגיקה כדי לקבוע את מספר הטלפון אם יש לך
         selectedCountry: null as Country | null,
         file: null as File | null,
     });
@@ -90,7 +93,7 @@ const AddCustomersForm = () => {
         setFormData({
             ...formData,
             selectedCountry,
-            phoneNumber: selectedCountry.phoneCode, // Set the phone code as the initial phone number
+            phoneNumber: selectedCountry.phoneCode,
         });
     };
 
@@ -219,9 +222,7 @@ const AddCustomersForm = () => {
                         className="custom-blue-button"
                         type="button"
                         onClick={() => {
-                            <Navigate to="/CreateCompany"
-                             state={{credentials: []}} replace = {true}
-                            />
+                            // הוספת לוגיקה לחזרה לדף הקודם
                         }}
                     />
                     <Button
