@@ -6,6 +6,7 @@ import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
 import { InputSwitch } from "primereact/inputswitch";
 import { useNavigate } from "react-router-dom";
+import { gapi } from 'gapi-script'; // הוספת גישה לספריית gapi
 import "../components/SingUp.css";
 import DashboardImage from "../../src/assets/Screenshot 2025-01-27 153239.jpg";
 
@@ -44,6 +45,39 @@ const SignUp: React.FC = () => {
       navigate("/AddCustomers", { state: { userData } }); // העברת הנתונים לדף הבא
     }
   };
+
+  const handleGoogleSignIn = () => {
+    const onSuccess = (response: any) => {
+      const profile = response.getBasicProfile();
+      const userData = {
+        firstName: profile.getGivenName(),
+        lastName: profile.getFamilyName(),
+        emailOrPhone: profile.getEmail(),
+        isCompany,
+      };
+      navigate("/AddCustomers", { state: { userData } });
+    };
+
+    const onFailure = (error: any) => {
+      console.error("Login failed: ", error);
+    };
+
+    const googleAuth = gapi.auth2.getAuthInstance();
+    googleAuth.signIn()
+      .then(onSuccess)
+      .catch(onFailure);
+  };
+
+  React.useEffect(() => {
+    const initClient = () => {
+      gapi.load("client:auth2", () => {
+        gapi.auth2.init({
+          client_id: "YOUR_GOOGLE_CLIENT_ID", // הכנס את ה-client ID שלך כאן
+        });
+      });
+    };
+    gapi.load("client:auth2", initClient);
+  }, []);
 
   return (
     <div className="signup-container">
@@ -102,7 +136,7 @@ const SignUp: React.FC = () => {
         <Button label="Register" className="w-full p-button-rounded custom-button mb-4" onClick={handleSubmit} />
         <Divider align="center">or do it via other accounts</Divider>
         <div className="social-login flex justify-center gap-4 mt-4">
-          <Button icon="pi pi-google" className="p-button-rounded p-button-secondary" />
+          <Button icon="pi pi-google" className="p-button-rounded p-button-secondary" onClick={handleGoogleSignIn} />
           <Button icon="pi pi-apple" className="p-button-rounded p-button-secondary" />
           <Button icon="pi pi-facebook" className="p-button-rounded p-button-secondary" />
         </div>
