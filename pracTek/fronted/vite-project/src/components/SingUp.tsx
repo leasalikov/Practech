@@ -80,6 +80,7 @@ const SignUp: React.FC = () => {
     gapi.load("client:auth2", initClient);
   }, []);
 
+
   return (
     <div className="signup-container">
       {/* Left Section */}
