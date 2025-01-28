@@ -1,4 +1,3 @@
-/* Container */
 .signup-container {
   display: flex;
   height: 100vh;
@@ -96,4 +95,14 @@ label {
 
 .form-group .w-full {
   width: 100%; /* לוודא שהשדה תופס את כל הרוחב */
+}
+
+.custom-button {
+  background-color: #00bcd4; /* צבע תכלת */
+  color: white; /* צבע טקסט לבן */
+}
+
+.custom-button {
+  background-color: #00bcd4; /* צבע תכלת */
+  color: white; /* צבע טקסט לבן */
 }
