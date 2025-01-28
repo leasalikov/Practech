@@ -6,7 +6,7 @@ import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
 import { InputSwitch } from "primereact/inputswitch";
 import "./SingUp.css";
-import DashboardImage from "../../assets/Screenshot 2025-01-27 153239.jpg";
+// import DashboardImage from "../../assets/Screenshot 2025-01-27 153239.jpg";
 
 const SignUp: React.FC = () => {
   const [isCompany, setIsCompany] = useState(false);
@@ -22,7 +22,7 @@ const SignUp: React.FC = () => {
         </div>
         <div className="dashboard-image mb-8">
           <img
-            src={DashboardImage}
+            // src={DashboardImage}
             alt="Dashboard Illustration"
             className="w-full h-auto"
           />
