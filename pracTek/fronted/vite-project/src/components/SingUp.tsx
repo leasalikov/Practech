@@ -5,7 +5,7 @@ import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
 import { InputSwitch } from "primereact/inputswitch";
-import "../B/style/SingUp.css";
+import "./SingUp.css";
 import DashboardImage from "../../assets/Screenshot 2025-01-27 153239.jpg";
 
 const SignUp: React.FC = () => {
