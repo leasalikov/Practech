@@ -8,6 +8,8 @@ import { AutoComplete } from "primereact/autocomplete";
 import { InputText } from 'primereact/inputtext';
 import { DropdownChangeEvent } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
+import { FileUpload } from 'primereact/fileupload';
+import { Avatar } from 'primereact/avatar';
 import '../style/AddCustomers.css'
 
 
@@ -28,6 +30,7 @@ const AddCustomersForm = () => {
         { name: 'Germany', code: 'DE', flag: '🇩🇪' },
     ];
     const [loading, setLoading] = useState(false);
+    const [file, setFile] = useState(null);
 
     const load = () => {
         setLoading(true);
@@ -35,6 +38,11 @@ const AddCustomersForm = () => {
         setTimeout(() => {
             setLoading(false);
         }, 2000);
+    };
+
+    const onUpload = (e) => {
+        setFile(e.files[0]);
+        console.log('Uploaded file:', e.files[0]);
     };
     // const [filteredSuggestions, setFilteredSuggestions] = useState([]);
     // const suggestions = ['John', 'Jane', 'Jack', 'Jill'];
@@ -59,9 +67,36 @@ const AddCustomersForm = () => {
             subTitle="add agencies/individual clients to your list"
             style={{ width: '30rem', margin: '2em auto', padding: '1em', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}
         >
-            {/* <Button icon="pi pi-user" rounded severity="info" aria-label="User" /> */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '1rem' }}>
+                {/* Avatar (Icon for Image Placeholder) */}
+                <Avatar
+                    icon="pi pi-image"
+                    shape="circle"
+                    style={{ width: '60px', height: '60px', backgroundColor: '#f0f4fa', color: '#888' }}
+                />
+                <FileUpload
+                    name="demo[]"
+                    url="./upload"
+                    mode="basic"
+                    accept=".svg,.png,.gif"
+                    maxFileSize={800000}
+                    customUpload
+                    uploadHandler={onUpload}
+                    auto={true}
+                    chooseLabel="Click to upload"
+                    emptyTemplate={
+                        <div style={{ textAlign: 'center', padding: '0.5rem', border: '1px dashed #ccc', borderRadius: '8px' }}>
+                            <span style={{ fontSize: '14px', color: '#4a90e2', cursor: 'pointer' }}>
+                                Click to upload or drag and drop
+                            </span>
+                            <br />
+                            <span style={{ fontSize: '12px', color: '#888' }}>SVG, PNG, or GIF (max. 800×400px)</span>
+                        </div>
+                    }
+                />
+            </div>
             <div className="p-inputgroup" style={{ marginBottom: '1rem' }}>
-            <span className="p-float-label" style={{ marginBottom: '1rem' }}>
+                <span className="p-float-label" style={{ marginBottom: '1rem' }}>
                     <AutoComplete inputId="ac"
                         onChange={(e) => setNewCustomer(e.value)} />
                     <label htmlFor="ac">First name</label>

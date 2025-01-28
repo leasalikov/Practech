@@ -18,30 +18,15 @@
 import './App.css';
 import { PrimeReactProvider } from 'primereact/api'; // PrimeReact Context Provider
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Routing components
-import SignUp from './components/SingUp'; // SignUp component
+import SignUp from './components/B/SingUp'; // SignUp component
+import AddCustomers from './components/B/AddCustomers'; // CreateCompany component
 import Success from './components/Success';
-import Dashboard from './components/A/Dashboard';
-// import AddCustomers from './components/DTC/AddCustomers'; // CreateCompany component
-// import Dashboard from "./components/A/Dashboard";
+import Dashboard from "./components/A/Dashboard";
 const App: React.FC = () => {
   return (
-    
-    <PrimeReactProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<SignUp />} />
-        
-          {/* <Route path="/AddCustomers" element={<AddCustomers />} /> */}
-          {/* <Route path="/CreateCompany" element={<CreateCompany />} /> */}
-          
-          {/* <Route path="/Success" element={<Success/>} />
-          // <Route path="/Dashboard" element={<Dashboard />} /> */}
-
-        </Routes>
-        <Success></Success>
-      </Router>
-    </PrimeReactProvider>
+   <div>
+    <Dashboard></Dashboard>
+   </div>
   );
 };
-
 export default App;
