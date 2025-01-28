@@ -1,41 +1,40 @@
 import React from "react";
-import "./style/Success.css"; // Import the CSS file
-
+import { Card } from "primereact/card";
+import "./style/Success.css";
+import Header from "./A/Header";
+import chat from "./icons/chat.png";
+import { Button } from "primereact/button";
+import success from "./icons/succsess.png";
+import { useNavigate } from "react-router-dom";
 const Success: React.FC = () => {
+
+  const navigate = useNavigate(); // יצירת אובייקט navigate
+
+  const navigateToDashboard = () => {
+    navigate("/dashboard"); // ניווט לעמוד Dashboard
+  };
+
+
   return (
     <div className="setup-success">
-      {/* Header */}
-      <header className="header">
-        <div className="logo">
-          <img src="/logo.png" alt="Logo" className="logo-image" />
-          <span className="logo-text">Dummy</span>
-        </div>
-        <div className="user-info">
-          <div className="user-avatar">JR</div>
-          <div className="user-details">
-            <span className="user-name">James Ryan</span>
-            <span className="user-email">company@email.com</span>
-          </div>
-        </div>
-      </header>
+      <Header />
+      <br />
+      <br />
 
-      {/* Main Content */}
-      <main className="main">
-        <div className="card">
-          <div className="icon-container">
-            <img src="/success-icon.png" alt="Success" className="success-icon" />
-          </div>
-          <h2 className="title">Setup is Successful!</h2>
-          <p className="description">
-            Lorem Ipsum is simply dummy text of the printing and typesetting.
-          </p>
-          <button className="dashboard-button">Go to Dashboard</button>
+      <Card className="card">
+        <div className="icon-container">
+          <img src={success} alt="Success" className="success-icon" />
         </div>
-      </main>
+        <h2 className="title">Setup is Successful!</h2>
+        <p className="description">
+          Lorem Ipsum is simply dummy text of the printing and typesetting.
+        </p>
+        <Button className="button" onClick={navigateToDashboard}>Go to dashboard</Button>
+      </Card>
 
       {/* Floating Chat Icon */}
       <div className="chat-icon">
-        <img src="/chat-icon.png" alt="Chat Icon" />
+        <img src={chat} alt="Chat Icon" />
       </div>
     </div>
   );

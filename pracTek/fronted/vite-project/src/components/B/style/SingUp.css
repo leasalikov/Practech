@@ -1,0 +1,99 @@
+/* Container */
+.signup-container {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* Left Section */
+.left-section {
+  background-color: #f9faff;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.logo-icon {
+  font-size: 2rem;
+  color: #7b61ff;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-left: 0.5rem;
+  color: #6b7280;
+}
+
+.dashboard-image img {
+  max-width: 300px;
+}
+
+.navigation-buttons {
+  margin-top: 2rem;
+}
+
+/* Right Section */
+.right-section {
+  background-color: white;
+  width: 50%;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  color: #4b5563;
+  text-align: left;
+}
+
+.p-inputtext {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+}
+
+.p-button-primary {
+  background-color: #7b61ff;
+  border-color: #7b61ff;
+}
+
+.p-button-primary:hover {
+  background-color: #684dd9;
+  border-color: #684dd9;
+}
+
+.p-button-secondary {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+.p-button-secondary:hover {
+  background-color: #e5e7eb;
+}
+
+.form-group {
+  text-align: left; /* מיקום טקסט בצד שמאל */
+}
+
+.form-group .w-full {
+  width: 100%; /* לוודא שהשדה תופס את כל הרוחב */
+}
