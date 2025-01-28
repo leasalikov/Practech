@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
 import 'primereact/resources/themes/lara-light-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
+import { useNavigate } from "react-router-dom";
 import { Card } from 'primereact/card';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
@@ -12,7 +12,7 @@ import { Avatar } from 'primereact/avatar';
 import '../style/AddCustomers.css';
 import { FileUploadHandlerEvent } from 'primereact/fileupload';
 import { DropdownChangeEvent } from 'primereact/dropdown';
-import Header from './Header';
+import { Navigate } from 'react-router-dom';
 
 interface Country {
     name: string;
@@ -22,17 +22,17 @@ interface Country {
 }
 
 const AddCustomersForm = () => {
-
+    
     const navigate = useNavigate();
 
     const handleNavigation = () => {
         navigate("/CreateCompany", { state: { credentials: [] }, replace: true });
     };
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
+        firstName: userData?.firstName || '',
+        lastName: userData?.lastName || '',
+        email: userData?.emailOrPhone || '',
+        phoneNumber: '', // אתה יכול להוסיף כאן לוגיקה כדי לקבוע את מספר הטלפון אם יש לך
         selectedCountry: null as Country | null,
         file: null as File | null,
     });
@@ -97,7 +97,7 @@ const AddCustomersForm = () => {
         setFormData({
             ...formData,
             selectedCountry,
-            phoneNumber: selectedCountry.phoneCode, // Set the phone code as the initial phone number
+            phoneNumber: selectedCountry.phoneCode,
         });
     };
 
@@ -226,7 +226,11 @@ const AddCustomersForm = () => {
                         icon="pi pi-arrow-left"
                         className="custom-blue-button"
                         type="button"
-                        onClick={handleNavigation}
+                        onClick={() => {
+                            <Navigate to="/CreateCompany"
+                             state={{credentials: []}} replace = {true}
+                            />
+                        }}
                     />
                     <Button
                         label="Save"
