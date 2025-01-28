@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Ro
 import SignUp from './components/SingUp'; // SignUp component
 import AddCustomers from './components/B/AddCustomers'; // CreateCompany component
 import CreateCompany from './components/B/CreateCompany'; // CreateCompany component
+// import CreateCompany from './components/B/CreateCompany'; // CreateCompany component
 
 const App: React.FC = () => {
   return (
@@ -22,5 +23,4 @@ const App: React.FC = () => {
     </PrimeReactProvider>
   );
 };
-
 export default App;

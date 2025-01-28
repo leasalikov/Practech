@@ -1,0 +1,119 @@
+   .dashboard-layout {
+    display: flex;
+    height: 100vh;
+    background-color: #f4f5fa; 
+  }
+  
+  .menu-container {
+    width: 250px;
+    background-color: white;
+    padding: 1rem;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .logo-container {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+  }
+  
+  .content-area {
+    padding: 2rem;
+    flex: 1;
+    background-color:  #f4f5fa;
+  }
+  
+  .p-menu {
+    border: none;
+    flex-grow: 1;
+  }
+  
+  .p-menu .p-menuitem-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    color: #555;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .p-menu .p-menuitem-link:hover {
+    background-color: #e0e7ff;
+    color: #1a73e8;
+  }
+  
+  .dashboard-layout {
+    display: flex; 
+    background-color:white;
+    overflow: hidden; 
+  }
+  
+  .menu-container {
+    width: 250px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+  }
+  
+  .content-area {
+    padding: 2rem;
+    flex: 1;
+  }
+  
+  /* .cards-container {
+
+    display: flex;
+    gap: 1.5rem;
+    justify-content: space-between;
+  }
+  
+  .card {
+    width: calc(25% - 1rem); 
+    height: 150px;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  } */
+
+  .cards-container {
+    display: flex;
+    flex-wrap: wrap; /* מאפשר למלבנים להישבר לשורה חדשה */
+    gap: 2rem; /* מרווחים בין המלבנים */
+    margin-top: 2rem; /* ריווח למעלה מהמילה Dashboard */
+    justify-content: flex-start; /* מיישר את כל המלבנים שמאלה */
+}
+
+.card {
+  width: calc(26% - 4rem); /* כל כרטיס לוקח 20% מרוחב השורה */
+  height: 120px; /* גובה הכרטיס */
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+  
