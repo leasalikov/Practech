@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Checkbox } from "primereact/checkbox";
@@ -55,7 +56,7 @@ const SignUp: React.FC = () => {
         emailOrPhone: profile.getEmail(),
         isCompany,
       };
-      navigate("/AddCustomers", { state: { userData } });
+      navigate("./DCT/AddCustomers", { state: { userData } });
     };
 
     const onFailure = (error: any) => {
