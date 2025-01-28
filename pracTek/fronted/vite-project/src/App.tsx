@@ -9,7 +9,6 @@ import Success from './components/Success';
 import Dashboard from './components/MSP/Dashboard';
 import Custemers from './components/MSP/Customers';
 
-// import Dashboard from "./components/A/Dashboard";
 const App: React.FC = () => {
   return (
     <PrimeReactProvider>
