@@ -1,10 +1,11 @@
 // import React from 'react';
 import './App.css';
+
 import { PrimeReactProvider } from 'primereact/api'; // PrimeReact Context Provider
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Routing components
 import SignUp from './components/SingUp'; // SignUp component
 import AddCustomers from './components/B/AddCustomers'; // CreateCompany component
-// import CreateCompany from './components/B/CreateCompany'; // CreateCompany component
+import CreateCompany from './components/B/CreateCompany'; // CreateCompany component
 
 const App: React.FC = () => {
   return (
@@ -13,6 +14,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<SignUp />} />
           <Route path="/AddCustomers" element={<AddCustomers />} />
+          <Route path="/CreateProject" element={<CreateProject />} />
           {/* <Route path="/CreateCompany" element={<CreateCompany />} /> */}
           {/* Add more routes as needed */}
         </Routes>
