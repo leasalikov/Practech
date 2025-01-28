@@ -5,9 +5,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Ro
 import SignUp from './components/SingUp'; // SignUp component
 import AddCustomers from './components/DTC/AddCustomers'; // CreateCompany component
 import CreateCompany from './components/DTC/CreateCompany';
+
 import Success from './components/Success';
 import Dashboard from './components/MSP/Dashboard';
 import Custemers from './components/MSP/Customers';
+
+
+import CreateProject from './components/DTC/CreateCompany';
+// import Dashboard from "./components/A/Dashboard";
 
 const App: React.FC = () => {
   return (
@@ -21,6 +26,9 @@ const App: React.FC = () => {
           <Route path='/Dashboard' element={<Dashboard/>} />
           <Route path='/Customers' element={<Custemers/>} />
 
+
+          <Route path="/CreateProject" element={<CreateProject />} />
+          {/* Add more routes as needed */}
 
         </Routes>
       </Router>
