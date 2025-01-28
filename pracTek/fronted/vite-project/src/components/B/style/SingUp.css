@@ -89,3 +89,11 @@ label {
 .p-button-secondary:hover {
   background-color: #e5e7eb;
 }
+
+.form-group {
+  text-align: left; /* מיקום טקסט בצד שמאל */
+}
+
+.form-group .w-full {
+  width: 100%; /* לוודא שהשדה תופס את כל הרוחב */
+}

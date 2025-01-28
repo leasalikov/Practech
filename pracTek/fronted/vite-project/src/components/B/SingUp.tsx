@@ -40,11 +40,15 @@ const SignUp: React.FC = () => {
       {/* Right Section */}
       <div className="right-section">
         <h1 className="text-3xl font-bold mb-4">Create your account 👋</h1>
-        <p className="text-gray-600 mb-8">It’s free and easy</p>
+        <p className="block text-gray-700 mb-2">It’s free and easy</p>
 
         <div className="form-group">
-          <label className="block text-gray-700 mb-2">Full name</label>
-          <InputText placeholder="Enter your name" className="w-full" />
+          <label className="block text-gray-700 mb-2">first name</label>
+          <InputText placeholder="Enter your first name" className="w-full" />
+        </div>
+        <div className="form-group">
+          <label className="block text-gray-700 mb-2">last name</label>
+          <InputText placeholder="Enter your last name" className="w-full" />
         </div>
         <div className="form-group">
           <label className="block text-gray-700 mb-2">
@@ -61,7 +65,7 @@ const SignUp: React.FC = () => {
             placeholder="Type your password"
             toggleMask
             feedback={false}
-            className="w-full"
+            className="w"
           />
           <small className="text-gray-500">Must be 8 characters at least</small>
         </div>
