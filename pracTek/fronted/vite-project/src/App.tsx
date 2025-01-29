@@ -7,12 +7,14 @@ import AddCustomers from './components/DTC/AddCustomers'; // CreateCompany compo
 import CreateCompany from './components/DTC/CreateCompany';
 
 import Success from './components/Success';
-import Dashboard from './components/MSP/Dashboard';
+import Dashboard from './components/MSP/pages/Dashboard';
 import Custemers from './components/MSP/Customers';
-
-
+import People from './components/MSP/pages/People';
 
 import CreateProject from './components/DTC/CreateCompany';
+import Assesments from './components/MSP/pages/Assesments';
+import PoliciesProcedures from './components/MSP/pages/Policies&Procedures';
+import BAAManagment from './components/MSP/pages/BAAManagment';
 // import Dashboard from "./components/A/Dashboard";
 
 const App: React.FC = () => {
@@ -26,6 +28,10 @@ const App: React.FC = () => {
           <Route path="/Success" element={<Success/>} />
           <Route path='/Dashboard' element={<Dashboard/>} />
           <Route path='/Customers' element={<Custemers/>} />
+          <Route path='/People' element={<People/>} />
+          <Route path='/Assesments' element={<Assesments/>} />
+          <Route path='/Policies' element={<PoliciesProcedures/>} />
+          <Route path='/BAAManagment' element={<BAAManagment/>} />
 
 
 
