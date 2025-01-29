@@ -7,7 +7,7 @@ import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
 import { InputSwitch } from "primereact/inputswitch";
 import { useNavigate } from "react-router-dom";
-import { gapi } from 'gapi-script'; // הוספת גישה לספריית gapi
+// import { gapi } from 'gapi-script'; // הוספת גישה לספריית gapi
 import "../components/SingUp.css";
 import DashboardImage from "../../src/assets/Screenshot 2025-01-27 153239.jpg";
 
