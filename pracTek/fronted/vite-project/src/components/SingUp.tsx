@@ -47,26 +47,30 @@ const SignUp: React.FC = () => {
     }
   };
 
+  function App(){
+    return <div>gfjgfgh</div>
+  }
+
   const handleGoogleSignIn = () => {
-    const onSuccess = (response: any) => {
-      const profile = response.getBasicProfile();
-      const userData = {
-        firstName: profile.getGivenName(),
-        lastName: profile.getFamilyName(),
-        emailOrPhone: profile.getEmail(),
-        isCompany,
-      };
-      navigate("./DCT/AddCustomers", { state: { userData } });
-    };
+    // const onSuccess = (response: any) => {
+    //   const profile = response.getBasicProfile();
+    //   const userData = {
+    //     firstName: profile.getGivenName(),
+    //     lastName: profile.getFamilyName(),
+    //     emailOrPhone: profile.getEmail(),
+    //     isCompany,
+    //   };
+    //   navigate("./DCT/AddCustomers", { state: { userData } });
+    // };
 
-    const onFailure = (error: any) => {
-      console.error("Login failed: ", error);
-    };
+    // const onFailure = (error: any) => {
+    //   console.error("Login failed: ", error);
+    // };
 
-    const googleAuth = gapi.auth2.getAuthInstance();
-    googleAuth.signIn()
-      .then(onSuccess)
-      .catch(onFailure);
+    // const googleAuth = gapi.auth2.getAuthInstance();
+    // googleAuth.signIn()
+    //   .then(onSuccess)
+    //   .catch(onFailure);
   };
 
   React.useEffect(() => {
@@ -130,8 +134,8 @@ const SignUp: React.FC = () => {
           <Checkbox checked={agreed} onChange={(e) => setAgreed(e.checked || false)} />
           <label className="ml-2 text-sm text-gray-600">
             By creating an account, you agree to the{" "}
-            <a href="#" className="text-blue-500 underline">Terms and Conditions</a>{" "} and our{" "}
-            <a href="#" className="text-blue-500 underline">Privacy Policy</a>.
+            <a href="https://developers.google.com/workspace/terms?hl=he" className="text-blue-500 underline">Terms and Conditions</a>{" "} and our{" "}
+            <a href="https://policies.google.com/privacy?hl=iw" className="text-blue-500 underline">Privacy Policy</a>.
           </label>
           {errors.agreed && <small className="text-red-500">{errors.agreed}</small>}
         </div>
