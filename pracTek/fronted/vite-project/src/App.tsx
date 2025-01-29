@@ -7,11 +7,8 @@ import AddCustomers from './components/DTC/AddCustomers'; // CreateCompany compo
 import CreateCompany from './components/DTC/CreateCompany';
 
 import Success from './components/Success';
-<!-- <<<<<<< customer -->
+
 import Dashboard from './components/MSP/pages/Dashboard';
-<!-- ======= -->
-<!-- import Dashboard from './components/A/Dashboard'; -->
-<!-- >>>>>>> main -->
 import Custemers from './components/MSP/Customers';
 import People from './components/MSP/pages/People';
 

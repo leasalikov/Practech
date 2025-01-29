@@ -112,12 +112,8 @@
 // components/Costumers.tsx
 
 import React, { useState } from "react";
-<!-- <<<<<<< customer -->
 import PageLayout from "./componnents/PageLayoutProps";
-<!-- =======
-import Header from "../A/Header"; -->
 import chat from "../icons/chat.png";
-<!-- >>>>>>> main -->
 import { TreeTable } from "primereact/treetable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
