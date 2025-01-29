@@ -7,7 +7,11 @@ import AddCustomers from './components/DTC/AddCustomers'; // CreateCompany compo
 import CreateCompany from './components/DTC/CreateCompany';
 
 import Success from './components/Success';
+<!-- <<<<<<< customer -->
 import Dashboard from './components/MSP/pages/Dashboard';
+<!-- ======= -->
+<!-- import Dashboard from './components/A/Dashboard'; -->
+<!-- >>>>>>> main -->
 import Custemers from './components/MSP/Customers';
 import People from './components/MSP/pages/People';
 
@@ -16,6 +20,7 @@ import Assesments from './components/MSP/pages/Assesments';
 import PoliciesProcedures from './components/MSP/pages/Policies&Procedures';
 import BAAManagment from './components/MSP/pages/BAAManagment';
 // import Dashboard from "./components/A/Dashboard";
+
 
 const App: React.FC = () => {
   return (
