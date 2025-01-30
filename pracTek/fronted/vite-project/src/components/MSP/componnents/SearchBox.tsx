@@ -4,11 +4,12 @@ import "../../style/SearchBox.css"; // עיצוב מותאם
 
 interface SearchBoxProps {
     placeholder?: string;
+    size?: "small" | "medium" | "large"; // פרופרטי חדש לגודל
 }
 
-const SearchBox: React.FC<SearchBoxProps> = ({ placeholder = "Search..." }) => {
+const SearchBox: React.FC<SearchBoxProps> = ({ placeholder = "Search...", size = "medium" }) => {
     return (
-        <div className="search-box-container">
+        <div className={`search-box-container ${size}`}>  {/* הוספת המחלקה size */}
             <span className="search-icon">
                 <i className="pi pi-search"></i> {/* אייקון זכוכית מגדלת */}
             </span>

@@ -1,13 +1,13 @@
 .search-box-container {
     display: flex;
     align-items: center;
-    width: 300px;
     border: 1px solid #ccc;
     border-radius: 8px;
     background-color: white;
     padding: 5px;
     position: relative;
     margin-left: 2rem;
+    width: 250px;
 }
 
 .search-icon {
@@ -20,9 +20,52 @@
 .search-box {
     width: 100%;
     padding: 8px 8px 8px 35px;
-    border: none !important; 
+    border: none !important;
     outline: none !important;
     background: transparent !important;
     box-shadow: none !important;
     font-size: 1rem;
+}
+
+.search-box-container.small {
+    border: 1px solid #aaa;        
+    padding: 4px;                   
+    height: 32px;                  
+    width: 200px;                  
+}
+
+.search-box-container.small .search-box {
+    font-size: 0.8rem;             
+    padding: 6px 6px 6px 30px;
+}
+
+.search-box-container.small .search-icon {
+    font-size: 0.8rem;             
+}
+
+.search-box-container.medium {
+    border: 1px solid #ccc;
+    padding: 5px;
+    height: 40px;
+}
+
+.search-box-container.medium .search-box {
+    font-size: 1rem;
+    padding: 8px 8px 8px 35px;
+}
+
+.search-box-container.large {
+    border: 2px solid #bbb;       
+    padding: 6px;
+    height: 48px;
+    width: 300px;
+}
+
+.search-box-container.large .search-box {
+    font-size: 1.2rem;
+    padding: 10px 10px 10px 40px;
+}
+
+.search-box-container.large .search-icon {
+    font-size: 1.2rem;     
 }
