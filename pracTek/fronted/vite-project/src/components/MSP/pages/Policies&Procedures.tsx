@@ -3,8 +3,6 @@ import PageLayout from "../componnents/PageLayoutProps";
 import Sidebar from "../componnents/Sidebar";
 import SecondHeader from "../../SecondHeader";
 import PageTitle from "../componnents/PageTitle";
-import AssessmentOptions from "../componnents/Options";
-import { Button } from "primereact/button";
 import { TreeTable } from "primereact/treetable";
 import { Column } from "primereact/column";
 import PaginationComponent from "../componnents/Paginator";
@@ -87,7 +85,7 @@ const PoliciesProcedures = () => {
 
         <PageLayout
           title="Policies & Procedures"
-          useOptions={true} // הצגת הכפתורים במקום חיפוש
+          useOptions={true} 
           options={[
             { label: "Documents", value: "Documents" },
             { label: "Certificates", value: "Certificates" },

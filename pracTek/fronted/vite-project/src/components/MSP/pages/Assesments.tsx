@@ -3,8 +3,6 @@ import PageLayout from "../componnents/PageLayoutProps";
 import Sidebar from "../componnents/Sidebar";
 import SecondHeader from "../../SecondHeader";
 import PageTitle from "../componnents/PageTitle";
-import AssessmentOptions from "../componnents/Options"; // הייבוא של AssessmentOptions
-import { Button } from "primereact/button";
 import { TreeTable } from "primereact/treetable";
 import { Column } from "primereact/column";
 import PaginationComponent from "../componnents/Paginator";
@@ -78,22 +76,13 @@ const Assesments = () => {
                 <SecondHeader />
                 <PageTitle title="Assesments" />
 
-                {/* <PageLayout
-                    showSearch={false} // אם לא צריך חיפוש, הצג כפתורים
-                    addButtonLabel="+ New Assessment"
-                    onAddClick={handleAddAssesments}
-
-                > */}
-
                 <PageLayout
                     title="Policies & Procedures"
-                    useOptions={true} // הצגת הכפתורים במקום חיפוש
+                    useOptions={true}
                     options={[
                         { label: "Security", value: "Documents" },
                         { label: "Data Protection", value: "Certificates" },
                         { label: "Uploads", value: "Courses" },
-                        // { label: "Tests", value: "Tests" },
-                        // { label: "Surveys", value: "Surveys" }
                     ]}
                     addButtonLabel="+ New Policy"
                     onAddClick={() => console.log("Adding policy")}
