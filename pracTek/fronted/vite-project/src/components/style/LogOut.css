@@ -79,7 +79,7 @@
     background-color: #f1f1f1;  
     color: #333;  
     border: 1px solid #ccc; 
-    padding: 12px 24px; 
+    padding: 10px 24px; 
     border-radius: 8px;
     font-weight: normal;  
     
@@ -89,17 +89,18 @@
     background-color: #ddd;  
 }
 
-/* .p-button {
-    background-color: white;
-    color: black; 
-    padding: 12px 24px; 
-    font-weight: bold; 
-     border: 1px solid #ccc;
-} */
-
 .p-button:hover {
     
     background-color: #3B82F6;  
     color: white; 
 }
 
+.logoutBtn{
+    color: white;
+    background-color: #3B82F6;
+}
+
+.logoutBtn:hover{
+    background-color: white;
+    color: black;
+}
