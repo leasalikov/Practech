@@ -89,13 +89,13 @@
     background-color: #ddd;  
 }
 
-.p-button {
+/* .p-button {
     background-color: white;
     color: black; 
     padding: 12px 24px; 
     font-weight: bold; 
      border: 1px solid #ccc;
-}
+} */
 
 .p-button:hover {
     

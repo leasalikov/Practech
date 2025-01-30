@@ -78,36 +78,50 @@ const Assesments = () => {
                 <SecondHeader />
                 <PageTitle title="Assesments" />
 
-                <PageLayout
+                {/* <PageLayout
                     showSearch={false} // אם לא צריך חיפוש, הצג כפתורים
                     addButtonLabel="+ New Assessment"
                     onAddClick={handleAddAssesments}
 
+                > */}
+
+                <PageLayout
+                    title="Policies & Procedures"
+                    useOptions={true} // הצגת הכפתורים במקום חיפוש
+                    options={[
+                        { label: "Security", value: "Documents" },
+                        { label: "Data Protection", value: "Certificates" },
+                        { label: "Uploads", value: "Courses" },
+                        // { label: "Tests", value: "Tests" },
+                        // { label: "Surveys", value: "Surveys" }
+                    ]}
+                    addButtonLabel="+ New Policy"
+                    onAddClick={() => console.log("Adding policy")}
                 >
 
 
 
-                    <div className="table-container">
-                        <div className="card">
-                            <TreeTable value={nodes} tableStyle={{ width: "100%" }} sortMode="single">
-                                <Column field="name" header="ASSESSMENT" sortable headerClassName="custom-header" bodyClassName="centered-text" />
-                                <Column field="email" header="CREATED BY" sortable headerClassName="custom-header" bodyClassName="centered-text" />
-                                <Column field="contact" header="PROGRESS" sortable headerClassName="custom-header" bodyClassName="centered-text" />
-                                <Column field="added" header="DUE ON" sortable headerClassName="custom-header" bodyClassName="centered-text" />
-                            </TreeTable>
+                <div className="table-container">
+                    <div className="card">
+                        <TreeTable value={nodes} tableStyle={{ width: "100%" }} sortMode="single">
+                            <Column field="name" header="ASSESSMENT" sortable headerClassName="custom-header" bodyClassName="centered-text" />
+                            <Column field="email" header="CREATED BY" sortable headerClassName="custom-header" bodyClassName="centered-text" />
+                            <Column field="contact" header="PROGRESS" sortable headerClassName="custom-header" bodyClassName="centered-text" />
+                            <Column field="added" header="DUE ON" sortable headerClassName="custom-header" bodyClassName="centered-text" />
+                        </TreeTable>
 
-                            <div className="table-footer">  <PaginationComponent
-                                first={first}
-                                rows={rows}
-                                totalRecords={totalRecords}
-                                onPageChange={handlePageChange}
-                            /></div>
-                        </div>
+                        <div className="table-footer">  <PaginationComponent
+                            first={first}
+                            rows={rows}
+                            totalRecords={totalRecords}
+                            onPageChange={handlePageChange}
+                        /></div>
                     </div>
+                </div>
 
-                </PageLayout>
-            </div>
+            </PageLayout>
         </div>
+        </div >
     );
 };
 
