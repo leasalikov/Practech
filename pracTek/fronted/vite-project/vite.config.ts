@@ -3,8 +3,13 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    headers: {
+      "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
+      "Cross-Origin-Embedder-Policy": "credentialless",
+    },
+    cors: true, // הוספת תמיכה ב-CORS
+  },
   plugins: [react()],
-  // optimizeDeps: {
-  //     include: ['primereact', 'primeicons'],
-  // },
-})
+});
+
