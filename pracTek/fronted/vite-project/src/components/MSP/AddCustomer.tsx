@@ -11,7 +11,7 @@ import { Avatar } from 'primereact/avatar';
 import '../style/AddCustomers.css';
 import { FileUploadHandlerEvent } from 'primereact/fileupload';
 import { DropdownChangeEvent } from 'primereact/dropdown';
-import Header from './Header';
+import Header from '../Header';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import { isValidPhoneNumber, parsePhoneNumber, CountryCode } from 'libphonenumber-js';
@@ -30,7 +30,6 @@ interface Errors {
     phoneNumber: string;
     file: string;
 }
-
 const AddCustomersForm = () => {
     const navigate = useNavigate();
 
@@ -51,7 +50,6 @@ const AddCustomersForm = () => {
     const validatePhoneNumber = (phoneNumber: string, country: CountryCode) => {
         return isValidPhoneNumber(phoneNumber, country) ? '' : 'Invalid phone number';
     };
-
     const validateForm = (country: CountryCode): boolean => {
         const newErrors: Errors = {
             firstName: formData.firstName ? '' : 'Required field',
@@ -90,7 +88,7 @@ const AddCustomersForm = () => {
             const country = phoneNumber?.country || 'US';
                 if (validateForm(country)) {
                 console.log('Form data is valid:', formData);
-                navigate("/CreateProject", { state: { credentials: [] }, replace: true });
+                navigate("./CreateProject", { state: { credentials: [] }, replace: true });
             } else {
                 console.log('Form data is invalid');
             }

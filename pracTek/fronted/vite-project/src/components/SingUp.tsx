@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import "../components/SingUp.css";
 import DashboardImage from "../../src/assets/Screenshot 2025-01-27 153239.jpg";
+import AddCustomer from "./MSP/AddCustomer";
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("");
@@ -21,7 +22,7 @@ const SignUp: React.FC = () => {
   const loginWithGoogle = useGoogleLogin({
     onSuccess: (tokenResponse) => {
       console.log("Google Login Success:", tokenResponse);
-      navigate("/Dashboard"); // הפנייה לדשבורד לאחר כניסה מוצלחת
+      navigate("./MST/AddCustomer"); // הפנייה לדשבורד לאחר כניסה מוצלחת
     },
     onError: () => {
       console.log("Google Login Failed");
