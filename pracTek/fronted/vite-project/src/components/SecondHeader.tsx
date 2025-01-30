@@ -46,6 +46,7 @@ const SecondHeader = () => {
                 padding: "1rem 2rem",
                 display: "flex",
                 justifyContent: "space-between",
+                marginLeft: "-3rem",
             }}
         />
     );
