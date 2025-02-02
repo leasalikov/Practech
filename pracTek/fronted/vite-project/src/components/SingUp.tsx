@@ -417,7 +417,7 @@ const SignUp: React.FC = () => {
       </div>
       {/* Right Section */}
       <div className="right-section">
-        <h1 className="text-3xl font-bold mb-4">Create your account 👋</h1>
+        <h1 className="text-3xl font-bold mb-4" style={{color: 'black'}}>Create your account 👋</h1>
         <p className="block text-gray-700 mb-2">It’s free and easy</p>
         <div className="form-group">
           <label className="block text-gray-700 mb-2">first name</label>

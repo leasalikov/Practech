@@ -76,6 +76,7 @@ import Logout from './components/LogOut';
 
 import { LogoutProvider } from './components/MSP/componnents/LogOutContext'; // ייבוא ה-Context
 import LogoutModal from './components/LogOut'; // ייבוא המודל
+// import Settings from './components/Setting';
 
 const App: React.FC = () => {
   return (
@@ -96,6 +97,8 @@ const App: React.FC = () => {
             <Route path='/BAAManagment' element={<BAAManagment />} />
             <Route path='/LogOut' element={<Logout />} />
             <Route path="/CreateProject" element={<CreateProject />} />
+            {/* <Route path='/Settin
+            g' element={<Settings/>} /> */}
             {/* Add more routes as needed */}
           </Routes>
         </LogoutProvider>

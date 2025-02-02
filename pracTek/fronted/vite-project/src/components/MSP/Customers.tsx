@@ -113,7 +113,6 @@
 
 import React, { useState } from "react";
 import PageLayout from "./componnents/PageLayoutProps";
-import chat from "../icons/chat.png";
 import { TreeTable } from "primereact/treetable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
@@ -166,11 +165,19 @@ const Costumers: React.FC = () => {
     return (
         <div>
             <Header></Header>
-            <PageLayout
+            {/* <PageLayout
                 title="Customers"
                 addButtonLabel="+ Add Customer"
                 goBackButtonLabel="Go Back"
                 nextButtonLabel="Next"
+                onAddClick={handleAddCustomer}
+                onGoBackClick={handleGoBack}
+                onNextClick={handleNext}
+            > */}
+            <PageLayout
+                title="Customers"
+                addButtonLabel="+ Add Customer"
+                showSearch={true} // Show the search box here
                 onAddClick={handleAddCustomer}
                 onGoBackClick={handleGoBack}
                 onNextClick={handleNext}
