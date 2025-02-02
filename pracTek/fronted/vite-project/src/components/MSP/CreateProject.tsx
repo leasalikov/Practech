@@ -7,7 +7,6 @@ import { Card } from 'primereact/card';
 import { Dropdown } from 'primereact/dropdown';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import { FileUpload } from 'primereact/fileupload';
 import { Calendar } from 'primereact/calendar';
 import iconFrame from '../icons/frame.png';
 import img1 from '../icons/1.png';
@@ -19,6 +18,8 @@ import img6 from '../icons/upload.png';
 import '../style/CreateProject.css';
 import Header from "../Header";
 import Success from "../Success";
+import AddCustomer from "./AddCustomer";
+
 interface FormData {
   image: string;
   framework: string;
@@ -36,6 +37,7 @@ interface Errors {
 }
 
 const CreateProject = () => {
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState<FormData>({
     image: '',
@@ -68,15 +70,30 @@ const CreateProject = () => {
 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-  const onUpload = (e: any) => {
-    const file = e.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImageUrl(reader.result as string);  // שים לב פה
+  // פונקציה להעלאת תמונה
+  const onUpload = (e: React.MouseEvent) => {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+
+    fileInput.onchange = (event) => {
+      const file = event.target?.files?.[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImageUrl(reader.result as string);
+          setFormData(prev => ({ ...prev, image: reader.result as string }));
+        };
+        reader.readAsDataURL(file);
+      }
     };
-    if (file) {
-      reader.readAsDataURL(file);  // טעינת התמונה כ-Data URL
-    }
+
+    fileInput.click();
+  };
+
+  const handleImageSelect = (image: string) => {
+    setFormData((prev) => ({ ...prev, image }));
+    setImageUrl(null);  // אם בחרת תמונה מהגלריה, לא להציג את התמונה שהועלתה
   };
 
   const validateForm = (): boolean => {
@@ -87,18 +104,19 @@ const CreateProject = () => {
       projectType: formData.projectType ? '' : 'Required field',
       projectDuration: formData.projectDuration ? '' : 'Required field'
     };
-    console.log(newErrors)
     setErrors(newErrors);
     return Object.values(newErrors).every((error) => error === '');
+  };
+
+  const handleNavigationBack = () => {
+    navigate("/AddCustomer", { state: { credentials: [] }, replace: true });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log('Form data is valid:', formData);
+      console.log(formData)
       navigate("../Success", { state: { credentials: [] }, replace: true });
-    } else {
-      console.log('Form data is invalid');
     }
   };
 
@@ -107,41 +125,21 @@ const CreateProject = () => {
   };
 
   return (
-    <><Header />
+    <>
+      <Header />
       <form onSubmit={handleSubmit}>
         <Card
-          title={
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '10%' }}>
-              <img
-                src={iconFrame}
-                alt="Profile Image"
-                style={{
-                  width: '40px',
-                  height: '40px',
-                  objectFit: 'cover',
-                  borderRadius: '50%',
-                  border: '2px solid #ccc',
-                }}
-              />
-              <div>
-                <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>Create a new project</span>
-                <br />
-                <span style={{ fontSize: '0.7rem', color: '#888', display: 'block' }}>
-                  lorem ipsum is simply dummy text of the
-                </span>
-              </div>
-            </div>
-          }
-          style={{
-            width: '30rem',
-            margin: '2em auto',
-            padding: '1em',
-            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-          }}
+          title={<div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <img src={iconFrame} alt="Profile Image"
+              style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '50%', border: '2px solid #ccc' }}
+            />
+            <span>Create a new project</span>
+          </div>}
+          subTitle="lorem ipsum is simply dummy text of the"
+          style={{ width: '30rem', margin: '2em auto', padding: '1em', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', marginTop: '5%' }}
         >
-          {/* Project Photo Section */}
-          <div style={{ marginTop: '1.5rem' }}>
-            <p style={{ fontSize: '0.9rem', color: '#555', marginBottom: '1rem', textAlign: 'left' }}>Project photo*</p>
+          <div className="form-group" style={{ marginTop: '1.5rem' }}>
+            <label >Project image</label>
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
               {[img1, img2, img3, img4, img5].map((image, index) => (
                 <img
@@ -149,94 +147,90 @@ const CreateProject = () => {
                   src={image}
                   alt={`Project ${index + 1}`}
                   style={{
-                    width: '50px',
-                    height: '50px',
-                    objectFit: 'cover',
-                    borderRadius: '50%', // Make the image circular
-                    cursor: 'pointer',
-                    border: formData.image === image ? '3px solid blue' : '2px solid #ccc',
+                    width: '50px', height: '50px', objectFit: 'cover', borderRadius: '50%', cursor: 'pointer',
+                    border: formData.image === image ? '3px solid blue' : '2px solid #ccc'
                   }}
-                  onClick={() => handleChange('image', image)} // Set the selected image
+                  onClick={() => handleImageSelect(image)}
                 />
               ))}
-              {imageUrl && (
-                <div>
-                  <img src={imageUrl} alt="Uploaded Preview" style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
-                </div>
-              )}
-              <FileUpload
-                name="file"
-                accept="image/*"
-                customUpload
-                uploadHandler={onUpload}
-                chooseLabel="בחר תמונה"
+              <img
+                src={formData.image || imageUrl || img6}  // תצוגת ברירת המחדל (אם לא הועלתה תמונה)
+                alt="Uploaded"
+                onClick={onUpload}
                 style={{
-                  // width: '50px',
-                  // height: '50px',
-                  // borderRadius: '50%',
-                  // backgroundImage: `url(${img6})`,
-                  // backgroundSize: 'cover',
-                  // cursor: 'pointer',
-                  // border: '2px solid #ccc',
                   width: '50px',
                   height: '50px',
                   objectFit: 'cover',
-                  borderRadius: '50%', // Make the image circular
+                  borderRadius: '50%',
                   cursor: 'pointer',
+                  marginBottom: '1rem',
                   border: formData.image === imageUrl ? '3px solid blue' : '2px solid #ccc',
                 }}
               />
             </div>
+            {errors.image && <small>{errors.image}</small>}
           </div>
-          <Dropdown
-            value={formData.framework}
-            options={frameworks}
-            onChange={(e) => handleChange('framework', e.value)}
-            optionLabel="name"
-            placeholder="Select a framework"
-            style={{ width: '100%', marginBottom: '1rem', textAlign: 'left' }}
-          />
-
-          {/* Project Name */}
-          <p style={{ fontSize: '0.9rem', color: '#555', marginBottom: '1rem', textAlign: 'left' }}>Project Name*</p>
-          <InputText
-            id="projectName"
-            value={formData.projectName}
-            onChange={(e) => handleChange('projectName', e.target.value)}
-            style={{ width: '100%' }}
-          />
-
-          {/* Project Type */}
-          <p style={{ fontSize: '0.9rem', color: '#555', marginBottom: '1rem', textAlign: 'left' }}>Project Type*</p>
-          <Dropdown
-            value={formData.projectType}
-            options={projectTypes}
-            onChange={(e) => handleChange('projectType', e.value)}
-            optionLabel="name"
-            placeholder="Select a project type"
-            style={{ width: '100%', textAlign: 'left' }}
-          />
-
-          {/* Project Duration */}
-          <p style={{ fontSize: '0.9rem', color: '#555', marginBottom: '1rem', textAlign: 'left' }}>Project Duration*</p>
-          <Calendar
-            value={formData.projectDuration}
-            onChange={(e) => handleChange('projectDuration', e.target.value)}
-            selectionMode="range"
-            dateFormat="mm/dd/yy"
-            placeholder="MM/DD/YYYY - MM/DD/YYYY"
-            showIcon={false}
-            style={{ width: '100%' }}
-          />
-
-          {/* Action Buttons */}
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'space-between', marginTop: '1.5rem' }}>
-            <Button label="Back" icon="pi pi-arrow-left" className="p-button-secondary" style={{ width: '50%' }} />
-            <Button label="Next" icon="pi pi-arrow-right" className="p-button-success" style={{ width: '50%' }} />
+          <div className="form-group">
+            <label htmlFor="framework">Project framework</label>
+            <Dropdown
+              className="form-group"
+              value={formData.framework}
+              options={frameworks}
+              onChange={(e) => handleChange('framework', e.value)}
+              optionLabel="name"
+              placeholder="Select a framework"
+              style={{ width: '100%', marginBottom: '0rem', textAlign: 'left' }}
+            />
+            {errors.framework && <small>{errors.framework}</small>}
+          </div>
+          <div className="form-group">
+            <label htmlFor="projectName">Project name</label>
+            <InputText
+              placeholder="Enter the project name"
+              id="projectName"
+              value={formData.projectName}
+              onChange={(e) => handleChange('projectName', e.target.value)}
+              style={{ width: '100%' }}
+            />
+            {errors.projectName && <small>{errors.projectName}</small>}
+          </div>
+          <div className="form-group">
+            <label htmlFor="projectType">Project type</label>
+            <Dropdown
+              value={formData.projectType}
+              options={projectTypes}
+              onChange={(e) => handleChange('projectType', e.value)}
+              optionLabel="name"
+              placeholder="Select a project type"
+              style={{ width: '100%', textAlign: 'left' }}
+            />
+            {errors.projectType && <small>{errors.projectType}</small>}
+          </div>
+          <div className="form-group">
+            <label htmlFor="projectDuration">Project duration</label>
+            <Calendar
+              value={formData.projectDuration}
+              onChange={(e) => handleChange('projectDuration', e.target.value)}
+              selectionMode="range"
+              dateFormat="mm/dd/yy"
+              placeholder="MM/DD/YYYY - MM/DD/YYYY"
+              showIcon={false}
+              style={{ width: '100%' }}
+            />
+            {errors.projectDuration && <small>{errors.projectDuration}</small>}
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem' }}>
+            <Button
+              onClick={handleNavigationBack}
+              label="Back" icon="pi pi-arrow-left" style={{ width: '50%' }} className="custom-blue-button" />
+            <Button
+              type="submit"
+              label="Next" icon="pi pi-arrow-right" iconPos="right" style={{ width: '50%' }} className="custom-blue-button" />
           </div>
         </Card>
       </form>
-    </>);
+    </>
+  );
 };
 
 export default CreateProject;

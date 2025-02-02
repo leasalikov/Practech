@@ -151,3 +151,16 @@
   border: 2px solid #ccc;      /* גבול דק ויפה מסביב לכפתור */
   cursor: pointer;             /* סמן "יד" כאשר עכבר נמצא מעל */
 }
+
+.p-dropdown {
+  border: none !important;  
+}
+
+.form-group .p-dropdown {
+  border: none !important; 
+  box-shadow: none; 
+}
+
+.form-group .p-dropdown-label {
+  padding-left: 1rem;
+}

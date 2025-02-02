@@ -89,7 +89,7 @@ const AddCustomersForm = () => {
             const phoneNumber = parsePhoneNumber(formData.phoneNumber);
             const country = phoneNumber?.country || 'US';
             // console.log(phoneNumber)
-                if (validateForm(country)) {
+            if (validateForm(country)) {
                 console.log('Form data is valid:', formData);
                 navigate("./CreateProject", { state: { credentials: [] }, replace: true });
             } else {
@@ -139,46 +139,43 @@ const AddCustomersForm = () => {
                         />
                         {errors.file && <small>{errors.file}</small>}
                     </div>
-                    <div className="p-inputgroup" style={{ marginBottom: '1rem' }}>
-                        <span className="p-float-label">
-                            <InputText
-                                id="firstName"
-                                value={formData.firstName}
-                                onChange={(e) => handleChange('firstName', e.target.value)} />
-                            <label htmlFor="firstName">First Name</label>
-                        </span>
+                    <div className="form-group" style={{ marginBottom: '1rem' }}>
+                        <label htmlFor="firstName">First Name</label>
+                        <InputText
+                            placeholder="Enter your email"
+                            id="firstName"
+                            value={formData.firstName}
+                            onChange={(e) => handleChange('firstName', e.target.value)} />
                         {errors.firstName && <small>{errors.firstName}</small>}
                     </div>
-                    <div className="p-inputgroup" style={{ marginBottom: '1rem' }}>
-                        <span className="p-float-label">
-                            <InputText
-                                id="lastName"
-                                value={formData.lastName}
-                                onChange={(e) => handleChange('lastName', e.target.value)} />
-                            <label htmlFor="lastName">Last Name</label>
-                        </span>
+                    <div className="form-group" style={{ marginBottom: '1rem' }}>
+                        <label htmlFor="lastName">Last Name</label>
+                        <InputText
+                            placeholder="Enter your last name"
+                            id="lastName"
+                            value={formData.lastName}
+                            onChange={(e) => handleChange('lastName', e.target.value)} />
                         {errors.lastName && <small>{errors.lastName}</small>}
                     </div>
-                    <div className="p-inputgroup" style={{ marginBottom: '1rem' }}>
-                        <span className="p-float-label">
-                            <InputText
-                                id="email"
-                                type="email"
-                                value={formData.email}
-                                onChange={(e) => handleChange('email', e.target.value)}
-                            />
-                            <label htmlFor="email">Email</label>
-                        </span>
+                    <div className="form-group" style={{ marginBottom: '1rem' }}>
+                        <label htmlFor="email">Email</label>
+                        <InputText
+                            placeholder="Enter your email"
+                            id="email"
+                            type="email"
+                            value={formData.email}
+                            onChange={(e) => handleChange('email', e.target.value)}
+                        />
                         {errors.email && <small>{errors.email}</small>}
                     </div>
-                    <div className="p-inputgroup" style={{ marginBottom: '1rem' }}>
+                    <div className="form-group" style={{ marginBottom: '1rem' }}>
+                    <label >Phone number</label>
                         <PhoneInput
-                            // className="p-float-label"
                             className="custom-phone-input"
                             defaultCountry="US"
                             value={formData.phoneNumber}
                             onChange={(value) => handleChange('phoneNumber', value)}
-                            placeholder="Phone Number"
+                            placeholder="Enter your phone Number"
                             style={{ width: '100%' }}
                         />
                         {errors.phoneNumber && <small>{errors.phoneNumber}</small>}
@@ -189,12 +186,14 @@ const AddCustomersForm = () => {
                             icon="pi pi-arrow-left"
                             className="custom-blue-button"
                             onClick={handleNavigationBack}
+                            style={{ width: '50%' }} 
                         />
                         <Button
                             label="Save"
-                            icon="pi pi-check"
+                            // icon="pi pi-check"
                             className="custom-blue-button"
                             type="submit"
+                            style={{ width: '50%' }} 
                         />
                     </div>
                 </Card>
