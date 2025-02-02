@@ -1,0 +1,23 @@
+/* עיצוב רגיל של הפריט */
+.p-menuitem-link {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+
+.active-menu-item{
+    background-color: #c9d1f3;
+    font-weight: bold;
+    color: #94c82e;
+    /* transition: background-color 0.3s; */
+}
+
+/* עיצוב כאשר הפריט נבחר */
+.active-menu-item .p-menuitem-link {
+    font-weight: bold !important;
+  
+}
+
