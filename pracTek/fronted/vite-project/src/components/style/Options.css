@@ -1,38 +1,3 @@
-/* .header-content {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 20px;
-    width: 100%;
-  }
-  
-  .custom-button {
-    margin-left: auto;   
-  }
-  
-  .assessment-options-container {
-    display: flex;
-    justify-content: flex-start;
-    gap: 20px; 
-    
-  }
-
-  .assessment-button {
-    background-color: transparent;
-    color: black; 
-    font-size: 1rem;
-  }
-  
-  .assessment-button:hover {
-    font-weight: bold; 
-    text-decoration: underline; 
-    text-decoration-color: #00bcd4;
-  }
-  
-  
-  
-   */
-
    .header-content {
     display: flex;
     justify-content: flex-start;
@@ -48,19 +13,24 @@
   .assessment-options-container {
     display: flex;
     justify-content: flex-start;
-    gap: 20px;
+    gap: 1.5rem;
   }
   
   .assessment-button {
     background-color: transparent;
     color: black;
     font-size: 1rem;
-    font-weight: normal; /* ברירת מחדל - טקסט רגיל */
   }
   
   .assessment-button:hover {
-    font-weight: bold; /* רק בעת ריחוף הכפתור יהיה בולד */
-    text-decoration: underline; /* קו תחתי בעת ריחוף */
-    text-decoration-color: #00bcd4; /* צבע הקו התחתי תכול */
+    text-decoration: underline; 
+    text-decoration-color: #4c6fff; 
+    text-decoration-style: solid ;
+    background-color: transparent !important;
+    color:black !important;
+    border-color: transparent !important;
+    font-weight: bold !important;
+    border: none !important;
   }
+
   

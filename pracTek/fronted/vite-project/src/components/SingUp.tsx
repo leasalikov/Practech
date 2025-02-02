@@ -200,199 +200,78 @@ const SignUp: React.FC = () => {
 
 /////////////////////////////////////////////////////////////
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// f8cdef31-a31e-4b4a-93e4-5f571e91255a - tenant ID
+// הגדרת הממשק AuthCodeResponse
+interface AuthCodeResponse {
+  code: string;
+}
+
+// הפונקציה לקבלת קוד האימות מ-Microsoft באמצעות חלון popup
+ async function getMicrosoftAuthCode(): Promise<AuthCodeResponse> {
+  return new Promise((resolve, reject) => {
+    const width = 500;
+    const height = 600;
+    const left = (window.innerWidth - width) / 2;
+    const top = (window.innerHeight - height) / 2;
+
+    const redirectUri = "http://localhost:5173"; // ודא שזה תואם להגדרה באפליקציה ב-Azure
+    const clientId = "YOUR_CLIENT_ID"; // החלף ב-Client ID שלך מ-Azure
+    const scopes = "User.Read"; // או הרשאות נוספות במידת הצורך
+    const responseType = "code";
+    const responseMode = "query";
+
+    const authUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=${clientId}&response_type=${responseType}&redirect_uri=${encodeURIComponent(redirectUri)}&response_mode=${responseMode}&scope=${encodeURIComponent(scopes)}`;
+
+    // פתיחת חלון התחברות
+    const authWindow = window.open(authUrl, "Microsoft Login", `width=${width},height=${height},top=${top},left=${left}`);
+
+    if (!authWindow) {
+      return reject("לא ניתן לפתוח חלון התחברות. ודא שהדפדפן לא חוסם popup.");
+    }
+
+    // בדיקה תקופתית האם החלון עבר לכתובת ה-redirect
+    const interval = setInterval(() => {
+      try {
+        // אם החלון נסגר, לדווח על כך
+        if (authWindow.closed) {
+          clearInterval(interval);
+          return reject("חלון האימות נסגר על ידי המשתמש");
+        }
+
+        // בדיקה האם החלון עבר לכתובת ה-redirect
+        if (authWindow.location.href.indexOf(redirectUri) === 0) {
+          const url = new URL(authWindow.location.href);
+          const code = url.searchParams.get("code");
+          const error = url.searchParams.get("error");
+
+          if (code) {
+            clearInterval(interval);
+            authWindow.close();
+            return resolve({ code });
+          } else if (error) {
+            clearInterval(interval);
+            authWindow.close();
+            return reject(`Error: ${error}`);
+          }
+        }
+      } catch (err) {
+        // שגיאות cross-origin יכולות לקרות עד שהחלון יעבור לכתובת ה-redirect,
+        // לכן מתעלמים מהן עד שהכתובת נגישה.
+      }
+    }, 500);
+  });
+}
+
+// דוגמה לשימוש בפונקציה
+async function loginWithMicrosoft() {
+  try {
+    const codeResponse = await getMicrosoftAuthCode();
+    console.log("Received Microsoft Auth Code:", codeResponse.code);
+    // כאן תמשיך את תהליך החלפת הקוד ל-token וכדומה...
+  } catch (error) {
+    console.error("Error getting Microsoft auth code:", error);
+  }
+}
 
 
 
@@ -473,8 +352,8 @@ const SignUp: React.FC = () => {
         <Divider align="center">or do it via other accounts</Divider>
         <div className="social-login flex justify-center gap-4 mt-4">
           <Button icon="pi pi-google" className="p-button-rounded p-button-secondary" onClick={() => loginWithGoogle()} />
-          <Button icon="pi pi-apple" className="p-button-rounded p-button-secondary" />
-          <Button icon="pi pi-facebook" className="p-button-rounded p-button-secondary" />
+          <Button icon="pi pi-microsoft" className="p-button-rounded p-button-secondary" onClick={() => loginWithMicrosoft()} />
+          {/* <Button icon="pi pi-facebook" className="p-button-rounded p-button-secondary" /> */}
         </div>
       </div>
     </div>

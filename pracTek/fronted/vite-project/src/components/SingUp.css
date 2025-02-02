@@ -83,6 +83,8 @@ label {
 .p-button-secondary {
   background-color: #f3f4f6;
   color: #6b7280;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
 }
 
 .p-button-secondary:hover {

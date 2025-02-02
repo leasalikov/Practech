@@ -6,6 +6,7 @@ import PageTitle from "../componnents/PageTitle";
 import { TreeTable } from "primereact/treetable";
 import { Column } from "primereact/column";
 import PaginationComponent from "../componnents/Paginator";
+import { Dropdown } from "primereact/dropdown";
 
 const PoliciesProcedures = () => {
   const handleEdit = (rowData: any) => {
@@ -74,6 +75,7 @@ const PoliciesProcedures = () => {
       onClick: handleUploadsClick,
     },
   ]);
+  const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
   return (
     <div className="dashboard-layout">
@@ -85,7 +87,7 @@ const PoliciesProcedures = () => {
 
         <PageLayout
           title="Policies & Procedures"
-          useOptions={true} 
+          useOptions={true}
           options={[
             { label: "Documents", value: "Documents" },
             { label: "Certificates", value: "Certificates" },
@@ -93,7 +95,27 @@ const PoliciesProcedures = () => {
             { label: "Tests", value: "Tests" },
             { label: "Surveys", value: "Surveys" }
           ]}
-          addButtonLabel="+ New Policy"
+          addButtonLabel={
+            <Dropdown
+              value={selectedItem}
+              options={[
+                { label: "Current", value: "Current" },
+                { label: "Date", value: "Date" },
+                { label: "Type", value: "Type" },
+                { label: "Size", value: "Size" },
+                { label: "Last Modified", value: "Last Modified" },
+                { label: "Actions", value: "Actions" },
+              ]}
+              onChange={(e) => setSelectedItem(e.value)}
+              placeholder="Sort By"
+              className="custom-dropdown"
+              valueTemplate={(option) => (
+                <span>
+                  <strong>Sort By:</strong> {option || "Select an option"}
+                </span>
+              )}
+            />
+          }
           onAddClick={() => console.log("Adding policy")}
         >
 

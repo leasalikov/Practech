@@ -100,7 +100,7 @@ const Sidebar: React.FC = () => {
             icon: "pi pi-cog", 
             command: () => handleMenuItemClick("/Settings"),
             className: activePath === "/Settings" ? "active-menu-item" : "", 
-            style: { marginTop: "20rem" }  
+            style: { marginTop: "18rem" }  
         },
         
         { 
@@ -117,7 +117,7 @@ const Sidebar: React.FC = () => {
                     <div className="menu-container">
                         <Toast ref={toast} />
                         <div>
-                            <img src={mspLogo} alt="Logo" className="logo" />
+                            <img src={mspLogo} alt="Logo" className="msplogo" />
                         </div>
                         <Menu model={menuItems} />
                     </div>
