@@ -12,7 +12,9 @@ import '../style/AddCustomers.css';
 import { FileUploadHandlerEvent } from 'primereact/fileupload';
 import { DropdownChangeEvent } from 'primereact/dropdown';
 import Header from '../Header';
+import SignUp from '../SingUp';
 import PhoneInput from 'react-phone-number-input';
+import CreateProject from './CreateProject';
 import 'react-phone-number-input/style.css';
 import { isValidPhoneNumber, parsePhoneNumber, CountryCode } from 'libphonenumber-js';
 
@@ -78,7 +80,7 @@ const AddCustomersForm = () => {
     };
 
     const handleNavigationBack = () => {
-        navigate("/CreateCompany", { state: { credentials: [] }, replace: true });
+        navigate("../", { state: { credentials: [] }, replace: true });
     };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -86,6 +88,7 @@ const AddCustomersForm = () => {
         try {
             const phoneNumber = parsePhoneNumber(formData.phoneNumber);
             const country = phoneNumber?.country || 'US';
+            // console.log(phoneNumber)
                 if (validateForm(country)) {
                 console.log('Form data is valid:', formData);
                 navigate("./CreateProject", { state: { credentials: [] }, replace: true });

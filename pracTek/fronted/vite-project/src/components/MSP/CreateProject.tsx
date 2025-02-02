@@ -18,7 +18,7 @@ import img5 from '../icons/5.png';
 import img6 from '../icons/upload.png';
 import '../style/CreateProject.css';
 import Header from "../Header";
-
+import Success from "../Success";
 interface FormData {
   image: string;
   framework: string;
@@ -72,10 +72,10 @@ const CreateProject = () => {
     const file = e.files[0];
     const reader = new FileReader();
     reader.onloadend = () => {
-      setImageUrl(reader.result as string);
+      setImageUrl(reader.result as string);  // שים לב פה
     };
     if (file) {
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file);  // טעינת התמונה כ-Data URL
     }
   };
 
@@ -159,26 +159,35 @@ const CreateProject = () => {
                   onClick={() => handleChange('image', image)} // Set the selected image
                 />
               ))}
+              {imageUrl && (
+                <div>
+                  <img src={imageUrl} alt="Uploaded Preview" style={{ width: '100px', height: '100px', objectFit: 'cover' }} />
+                </div>
+              )}
               <FileUpload
                 name="file"
                 accept="image/*"
                 customUpload
                 uploadHandler={onUpload}
-                chooseLabel="Choose an image"
+                chooseLabel="בחר תמונה"
                 style={{
+                  // width: '50px',
+                  // height: '50px',
+                  // borderRadius: '50%',
+                  // backgroundImage: `url(${img6})`,
+                  // backgroundSize: 'cover',
+                  // cursor: 'pointer',
+                  // border: '2px solid #ccc',
                   width: '50px',
                   height: '50px',
-                  borderRadius: '50%',
-                  backgroundImage: `url(${img6})`, // Default upload icon
-                  backgroundSize: 'cover',
+                  objectFit: 'cover',
+                  borderRadius: '50%', // Make the image circular
                   cursor: 'pointer',
-                  border: '2px solid #ccc',
+                  border: formData.image === imageUrl ? '3px solid blue' : '2px solid #ccc',
                 }}
               />
             </div>
           </div>
-
-          {/* Framework Selection */}
           <Dropdown
             value={formData.framework}
             options={frameworks}

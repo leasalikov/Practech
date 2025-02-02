@@ -8,6 +8,7 @@ import DashboardImage from "../../src/assets/Screenshot 2025-01-27 153239.jpg";
 import { Checkbox } from "primereact/checkbox";
 import { Divider } from "primereact/divider";
 import { InputSwitch } from "primereact/inputswitch";
+import AddCustomer from "./MSP/AddCustomer";
 import "../components/SingUp.css";
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ const SignUp: React.FC = () => {
         isCompany,
       };
       console.log("User Data befor:", userData);
-      navigate("/AddCustomers", { state: { userData } }); // שליחת הנתונים לדף הבא
+      navigate("/AddCustomer", { state: { userData } }); // שליחת הנתונים לדף הבא
       console.log("User Data after:", userData);
     }
   };
@@ -91,7 +92,7 @@ const SignUp: React.FC = () => {
   
         setTimeout(() => {
           console.log("User Data After Update:", userInfo);
-          navigate("/AddCustomers", { state: { userData: userInfo } });
+          navigate("/AddCustomer", { state: { userData: userInfo } });
         }, 500); // דיליי קטן כדי לוודא שהסטייט מתעדכן לפני הניווט
   
       } catch (error) {

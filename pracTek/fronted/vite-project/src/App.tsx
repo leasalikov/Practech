@@ -58,7 +58,7 @@ import './App.css';
 import { PrimeReactProvider } from 'primereact/api'; // PrimeReact Context Provider
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Routing components
 import SignUp from './components/SingUp'; // SignUp component
-import AddCustomers from './components/DTC/AddCustomers'; // CreateCompany component
+import AddCustomer from './components/MSP/AddCustomer'; // CreateCompany component
 import CreateCompany from './components/DTC/CreateCompany';
 
 import Success from './components/Success';
@@ -67,7 +67,7 @@ import Dashboard from './components/MSP/pages/Dashboard';
 import Custemers from './components/MSP/Customers';
 import People from './components/MSP/pages/People';
 
-import CreateProject from './components/DTC/CreateCompany';
+import CreateProject from './components/MSP/CreateProject';
 import Assesments from './components/MSP/pages/Assesments';
 import PoliciesProcedures from './components/MSP/pages/Policies&Procedures';
 import BAAManagment from './components/MSP/pages/BAAManagment';
@@ -85,7 +85,7 @@ const App: React.FC = () => {
           <LogoutModal /> {/* כאן אנחנו מוסיפים את ה-LogoutModal */}
           <Routes>
             <Route path="/" element={<SignUp />} />
-            <Route path="/AddCustomers" element={<AddCustomers />} />
+            <Route path="/AddCustomer" element={<AddCustomer />} />
             <Route path="/CreateCompany" element={<CreateCompany />} />
             <Route path="/Success" element={<Success />} />
             <Route path='/Dashboard' element={<Dashboard />} />
@@ -95,7 +95,7 @@ const App: React.FC = () => {
             <Route path='/PoliciesProcedures' element={<PoliciesProcedures />} />
             <Route path='/BAAManagment' element={<BAAManagment />} />
             <Route path='/LogOut' element={<Logout />} />
-            <Route path="/CreateProject" element={<CreateProject />} />
+            <Route path="/AddCustomer/CreateProject/" element={<CreateProject />} />
             {/* Add more routes as needed */}
           </Routes>
         </LogoutProvider>
