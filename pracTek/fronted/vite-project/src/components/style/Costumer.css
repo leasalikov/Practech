@@ -178,24 +178,6 @@
     background-color: #f4f5fa;
 } 
 
-/* .main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
-    margin-left: 16rem; 
-} */
-
-/* .content-area {
-    padding: 8rem;
-    flex: 1;
-    background-color: pink;
-} */
-/* 
-.t { 
-    margin-top: 0;
-} */
-
 .search-box {
     width: 300px;
     padding: 7px;
@@ -203,4 +185,6 @@
     border-radius: 8px;
     border: 1px solid #ccc;
 }
+
+
 

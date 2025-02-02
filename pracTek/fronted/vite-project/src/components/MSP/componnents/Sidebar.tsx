@@ -59,31 +59,40 @@ const Sidebar: React.FC = () => {
             label: "Dashboard", 
             icon: "pi pi-home", 
             command: () => handleMenuItemClick("/Dashboard"),
-            className: activePath === "/Dashboard" ? "active-menu-item" : "" 
+            className: activePath === "/Dashboard" ? "active-menu-item" : "", 
+            style: {marginBottom: '0.5rem'}
         },
         { 
             label: "People", 
             icon: "pi pi-users", 
             command: () => handleMenuItemClick("/People"),
-            className: activePath === "/People" ? "active-menu-item" : "" 
+            className: activePath === "/People" ? "active-menu-item" : "" ,
+            style: {marginBottom: '0.5rem'}
+
         },
         { 
             label: "Assesments", 
             icon: "pi pi-file", 
             command: () => handleMenuItemClick("/Assesments"),
-            className: activePath === "/Assesments" ? "active-menu-item" : "" 
+            className: activePath === "/Assesments" ? "active-menu-item" : "" ,
+            style: {marginBottom: '0.5rem'}
+
         },
         { 
             label: "Policies & Procedures", 
             icon: "pi pi-book", 
             command: () => handleMenuItemClick("/PoliciesProcedures"),
-            className: activePath === "/PoliciesProcedures" ? "active-menu-item" : "" 
+            className: activePath === "/PoliciesProcedures" ? "active-menu-item" : "" ,
+            style: {marginBottom: '0.5rem'}
+
         },
         { 
             label: "BAA Management", 
             icon: "pi pi-briefcase", 
             command: () => handleMenuItemClick("/BAAManagment"),
-            className: activePath === "/BAAManagment" ? "active-menu-item" : "" 
+            className: activePath === "/BAAManagment" ? "active-menu-item" : "" ,
+            style: {marginBottom: '0.5rem'}
+
         },
         { separator: true },
         { 
@@ -97,26 +106,17 @@ const Sidebar: React.FC = () => {
         { 
             label: "Logout", 
             icon: "pi pi-sign-out", 
-            command: openLogoutModal 
+            command: openLogoutModal ,
+            style: {marginBottom: '0.5rem'}
+
         }
     ];
 
-    // return (
-    //     <div className="w-64 h-screen bg-white shadow-lg p-4 fixed">
-    //         <div className="menu-container">
-    //             <Toast ref={toast} />
-    //             <div className="logo-container">
-    //                 <img src={mspLogo} alt="Logo" className="logo" />
-    //             </div>
-    //             <Menu model={menuItems} />
-    //         </div>
-    //     </div>
-    // );
        return (
-                <div className="w-64 h-screen bg-white shadow-lg p-4 fixed">
+                <div style={{height: '100vh'}}>
                     <div className="menu-container">
                         <Toast ref={toast} />
-                        <div className="logo-container">
+                        <div>
                             <img src={mspLogo} alt="Logo" className="logo" />
                         </div>
                         <Menu model={menuItems} />
