@@ -1,3 +1,17 @@
+.center-button {
+  display: flex;
+  justify-content: center;
+}
+
+.blue-button {
+  background-color: #4da6ff !important; /* צבע תכלת */
+  border: none !important;
+}
+
+.blue-button:hover {
+  background-color: #3399ff !important; /* צבע כהה יותר במעבר עכבר */
+}
+
 .signup-container {
   display: flex;
   height: 100vh;

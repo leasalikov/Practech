@@ -27,14 +27,12 @@ const SignUp: React.FC = () => {
     if (!emailOrPhone || (!emailOrPhone.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/) && !emailOrPhone.match(/^\d+$/))) {
       newErrors.emailOrPhone = "Enter a valid email or phone number";
     }
-          if (!password || password.length < 8) newErrors.password = "Password must be at least 8 characters long";
+    if (!password || password.length < 8) newErrors.password = "Password must be at least 8 characters long";
     if (!agreed) newErrors.agreed = "You must agree to the terms";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
-
 
   const handleSubmit = () => {
     if (validateForm()) {
@@ -52,35 +50,18 @@ const SignUp: React.FC = () => {
   };
 
   const loginWithGoogle = useGoogleLogin({
-    flow: "auth-code",
-    onSuccess: async (codeResponse) => {
-      console.log("Google Login Success:", codeResponse);
-  
+    onSuccess: async (tokenResponse) => {
+      console.log("Google Login Success:", tokenResponse);
+
       try {
-        // שליחת ה-Code לשרת של Google כדי לקבל Access Token
-        const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams({
-            client_id: "97432148507-pm5arf15v5euedvpli8sb6eesocqm5m3.apps.googleusercontent.com", // הכנס את Client ID שלך מה-Google Console
-            client_secret: "YOUR_CLIENT_SECRET", // הכנס את Client Secret שלך
-            code: codeResponse.code, // הקוד שהתקבל מההתחברות
-            grant_type: "authorization_code",
-            redirect_uri: "http://localhost:5173", // אותו Redirect URI כמו שהגדרת ב-Google Console
-          }),
-          
-        });
-  
-        const tokenData = await tokenResponse.json();
-        console.log("Google Token Data:", tokenData);
-  
-        // בקשה לקבלת פרטי המשתמש
+        // Fetch user data from Google
         const userInfoResponse = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
-          headers: { Authorization: `Bearer ${tokenData.access_token}` },
+          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
         });
+
         const userInfo = await userInfoResponse.json();
         console.log("Google User Info:", userInfo);
-  
+
         setUserData({
           firstName: userInfo.given_name || "",
           lastName: userInfo.family_name || "",
@@ -88,21 +69,16 @@ const SignUp: React.FC = () => {
           password: "",
           isCompany: false,
         });
-  
-        setTimeout(() => {
-          console.log("User Data After Update:", userInfo);
-          navigate("/AddCustomers", { state: { userData: userInfo } });
-        }, 500); // דיליי קטן כדי לוודא שהסטייט מתעדכן לפני הניווט
-  
+
+        navigate("/AddCustomers", { state: { userData: userInfo } });
       } catch (error) {
-        console.error("Error exchanging code for token:", error);
+        console.error("Error fetching user data:", error);
       }
     },
-    onError: () => {
-      console.log("Google Login Failed");
+    onError: (error) => {
+      console.error("Google Login Failed:", error);
     },
   });
-  
 
   return (
     <div className="signup-container">
@@ -172,10 +148,15 @@ const SignUp: React.FC = () => {
             </a>.
           </label>
 
-
           {errors.agreed && <small className="text-red-500">{errors.agreed}</small>}
         </div>
-        <Button label="Register" className="w-full p-button-rounded custom-button mb-4" onClick={handleSubmit} />
+        <div className="center-button">
+          <Button
+            label="Register"
+            className="p-button-rounded blue-button mb-4"
+            onClick={handleSubmit}
+          />
+        </div>
         <Divider align="center">or do it via other accounts</Divider>
         <div className="social-login flex justify-center gap-4 mt-4">
           <Button icon="pi pi-google" className="p-button-rounded p-button-secondary" onClick={() => loginWithGoogle()} />
