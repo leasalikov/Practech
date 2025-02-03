@@ -200,26 +200,45 @@ const SignUp: React.FC = () => {
 
 /////////////////////////////////////////////////////////////
 
-// f8cdef31-a31e-4b4a-93e4-5f571e91255a - tenant ID
+// Application (client) ID
+// 4141475f-fd9b-484f-9918-daad7c686eee
+
+// Directory (tenant) ID
+// 25357b0d-6142-4e06-b945-4fe00cb8a22f
+
+//secret
+//value
+//71_8Q~15ih~5SHRiGrabhPY6h~jW41sI0HLuudBq
+
+//secretID
+//66dfb359-8b46-4273-bff5-ee3d1280460b
+
 // הגדרת הממשק AuthCodeResponse
 interface AuthCodeResponse {
   code: string;
 }
 
 // הפונקציה לקבלת קוד האימות מ-Microsoft באמצעות חלון popup
- async function getMicrosoftAuthCode(): Promise<AuthCodeResponse> {
+async function getMicrosoftAuthCode(): Promise<AuthCodeResponse> {
   return new Promise((resolve, reject) => {
     const width = 500;
     const height = 600;
     const left = (window.innerWidth - width) / 2;
     const top = (window.innerHeight - height) / 2;
 
-    const redirectUri = "http://localhost:5173"; // ודא שזה תואם להגדרה באפליקציה ב-Azure
-    const clientId = "YOUR_CLIENT_ID"; // החלף ב-Client ID שלך מ-Azure
-    const scopes = "User.Read"; // או הרשאות נוספות במידת הצורך
+    // כאן יש להחליף את הערך לכתובת ה-Redirect URI שקיבלת בהגדרות האפליקציה שלך (לדוגמה: http://localhost:5173)
+    const redirectUri = "http://localhost:5173"; // ← החליפי ל-Redirect URI שלך
+
+    // כאן יש להכניס את ה-Client ID שקיבלת מ-Azure (מהדף Overview של האפליקציה שלך)
+    const clientId = "4141475f-fd9b-484f-9918-daad7c686eee"; // ← החליפי ב-Client ID שלך
+
+    // אם את צריכה הרשאות נוספות, את יכולה לעדכן כאן – בדוגמה זו משתמשים בהרשאה "User.Read"
+    const scopes = "User.Read"; // ← במידת הצורך, עדכני את ההרשאות (scopes)
+    
     const responseType = "code";
     const responseMode = "query";
 
+    // אם ברצונך למקד את האימות לטננט מסוים, ניתן להחליף את "common" ב-Tenant ID שלך (לדוגמה: "YOUR_TENANT_ID")
     const authUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=${clientId}&response_type=${responseType}&redirect_uri=${encodeURIComponent(redirectUri)}&response_mode=${responseMode}&scope=${encodeURIComponent(scopes)}`;
 
     // פתיחת חלון התחברות
@@ -272,6 +291,78 @@ async function loginWithMicrosoft() {
     console.error("Error getting Microsoft auth code:", error);
   }
 }
+
+// // הגדרת הממשק AuthCodeResponse
+// interface AuthCodeResponse {
+//   code: string;
+// }
+
+// // הפונקציה לקבלת קוד האימות מ-Microsoft באמצעות חלון popup
+//  async function getMicrosoftAuthCode(): Promise<AuthCodeResponse> {
+//   return new Promise((resolve, reject) => {
+//     const width = 500;
+//     const height = 600;
+//     const left = (window.innerWidth - width) / 2;
+//     const top = (window.innerHeight - height) / 2;
+
+//     const redirectUri = "http://localhost:5173"; // ודא שזה תואם להגדרה באפליקציה ב-Azure
+//     const clientId = "4141475f-fd9b-484f-9918-daad7c686eee"; // החלף ב-Client ID שלך מ-Azure
+//     const scopes = "User.Read"; // או הרשאות נוספות במידת הצורך
+//     const responseType = "code";
+//     const responseMode = "query";
+
+//     const authUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=${clientId}&response_type=${responseType}&redirect_uri=${encodeURIComponent(redirectUri)}&response_mode=${responseMode}&scope=${encodeURIComponent(scopes)}`;
+
+//     // פתיחת חלון התחברות
+//     const authWindow = window.open(authUrl, "Microsoft Login", `width=${width},height=${height},top=${top},left=${left}`);
+
+//     if (!authWindow) {
+//       return reject("לא ניתן לפתוח חלון התחברות. ודא שהדפדפן לא חוסם popup.");
+//     }
+
+//     // בדיקה תקופתית האם החלון עבר לכתובת ה-redirect
+//     const interval = setInterval(() => {
+//       try {
+//         // אם החלון נסגר, לדווח על כך
+//         if (authWindow.closed) {
+//           clearInterval(interval);
+//           return reject("חלון האימות נסגר על ידי המשתמש");
+//         }
+
+//         // בדיקה האם החלון עבר לכתובת ה-redirect
+//         if (authWindow.location.href.indexOf(redirectUri) === 0) {
+//           const url = new URL(authWindow.location.href);
+//           const code = url.searchParams.get("code");
+//           const error = url.searchParams.get("error");
+
+//           if (code) {
+//             clearInterval(interval);
+//             authWindow.close();
+//             return resolve({ code });
+//           } else if (error) {
+//             clearInterval(interval);
+//             authWindow.close();
+//             return reject(`Error: ${error}`);
+//           }
+//         }
+//       } catch (err) {
+//         // שגיאות cross-origin יכולות לקרות עד שהחלון יעבור לכתובת ה-redirect,
+//         // לכן מתעלמים מהן עד שהכתובת נגישה.
+//       }
+//     }, 500);
+//   });
+// }
+
+// // דוגמה לשימוש בפונקציה
+// async function loginWithMicrosoft() {
+//   try {
+//     const codeResponse = await getMicrosoftAuthCode();
+//     console.log("Received Microsoft Auth Code:", codeResponse.code);
+//     // כאן תמשיך את תהליך החלפת הקוד ל-token וכדומה...
+//   } catch (error) {
+//     console.error("Error getting Microsoft auth code:", error);
+//   }
+// }
 
 
 
