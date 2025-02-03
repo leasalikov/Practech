@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Button } from "primereact/button";
@@ -10,8 +10,11 @@ import { Divider } from "primereact/divider";
 import { InputSwitch } from "primereact/inputswitch";
 import AddCustomer from "./MSP/AddCustomer";
 import "../components/SingUp.css";
+import { UserContext } from './ContextProvider';
+
 const SignUp: React.FC = () => {
   const navigate = useNavigate();
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [emailOrPhone, setEmailOrPhone] = useState("");
@@ -19,7 +22,6 @@ const SignUp: React.FC = () => {
   const [isCompany, setIsCompany] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [userData, setUserData] = useState<any>(null); // סטייט חדש לשמירת נתוני המשתמש
 
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
@@ -28,14 +30,12 @@ const SignUp: React.FC = () => {
     if (!emailOrPhone || (!emailOrPhone.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/) && !emailOrPhone.match(/^\d+$/))) {
       newErrors.emailOrPhone = "Enter a valid email or phone number";
     }
-          if (!password || password.length < 8) newErrors.password = "Password must be at least 8 characters long";
+    if (!password || password.length < 8) newErrors.password = "Password must be at least 8 characters long";
     if (!agreed) newErrors.agreed = "You must agree to the terms";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
-
 
   const handleSubmit = () => {
     if (validateForm()) {
@@ -46,7 +46,10 @@ const SignUp: React.FC = () => {
         password,
         isCompany,
       };
-      console.log("User Data befor:", userData);
+      console.log("userData", userData);
+      // const newUserData = { name: 'John Doe', email: 'john.doe@example.com' };
+      setUser(userData);
+
       navigate("/AddCustomer", { state: { userData } }); // שליחת הנתונים לדף הבא
       console.log("User Data after:", userData);
     }

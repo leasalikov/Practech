@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import 'primereact/resources/themes/lara-light-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
@@ -10,13 +10,12 @@ import { FileUpload } from 'primereact/fileupload';
 import { Avatar } from 'primereact/avatar';
 import '../style/AddCustomers.css';
 import { FileUploadHandlerEvent } from 'primereact/fileupload';
-import { DropdownChangeEvent } from 'primereact/dropdown';
 import Header from '../Header';
-import SignUp from '../SingUp';
+// import SignUp from '../SingUp';
 import PhoneInput from 'react-phone-number-input';
-import CreateProject from './CreateProject';
 import 'react-phone-number-input/style.css';
 import { isValidPhoneNumber, parsePhoneNumber, CountryCode } from 'libphonenumber-js';
+import { UserContext } from '../ContextProvider';
 
 interface FormData {
     firstName: string;
@@ -32,8 +31,20 @@ interface Errors {
     phoneNumber: string;
     file: string;
 }
-const AddCustomersForm = () => {
+
+const AddCustomersForm: React.FC = () => {
     const navigate = useNavigate();
+    const context = useContext(UserContext); 
+    if (!context) {
+      throw new Error('UserProfile must be used within a UserContextProvider');
+    }
+  
+    const { setUser } = context;
+    console.log("AddCustomersForm ", context)
+  
+    if (!context) {
+      return <p>Loading user data...</p>; // במקרה של טעינה או שאין משתמש
+    }
 
     const [formData, setFormData] = useState<FormData>({
         firstName: '',

@@ -22,7 +22,7 @@
 
 // const App: React.FC = () => {
 
-  
+
 //   return (
 //     <PrimeReactProvider>
 //       <Router>
@@ -60,7 +60,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; // Ro
 import SignUp from './components/SingUp'; // SignUp component
 import AddCustomer from './components/MSP/AddCustomer'; // CreateCompany component
 import CreateCompany from './components/DTC/CreateCompany';
-
+import { UserContextProvider } from './components/ContextProvider'; // נתיב לקובץ של ה-Context
 import Success from './components/Success';
 
 import Dashboard from './components/MSP/pages/Dashboard';
@@ -79,28 +79,30 @@ import LogoutModal from './components/LogOut'; // ייבוא המודל
 
 const App: React.FC = () => {
   return (
-    <PrimeReactProvider>
-      <Router>
-        <LogoutProvider> {/* עטיפת כל היישום עם LogoutProvider */}
-          <LogoutModal /> {/* כאן אנחנו מוסיפים את ה-LogoutModal */}
-          <Routes>
-            <Route path="/" element={<SignUp />} />
-            <Route path="/AddCustomer" element={<AddCustomer />} />
-            <Route path="/CreateCompany" element={<CreateCompany />} />
-            <Route path="/Success" element={<Success />} />
-            <Route path='/Dashboard' element={<Dashboard />} />
-            <Route path='/Customers' element={<Custemers />} />
-            <Route path='/People' element={<People />} />
-            <Route path='/Assesments' element={<Assesments />} />
-            <Route path='/PoliciesProcedures' element={<PoliciesProcedures />} />
-            <Route path='/BAAManagment' element={<BAAManagment />} />
-            <Route path='/LogOut' element={<Logout />} />
-            <Route path="/AddCustomer/CreateProject/" element={<CreateProject />} />
-            {/* Add more routes as needed */}
-          </Routes>
-        </LogoutProvider>
-      </Router>
-    </PrimeReactProvider>
+    <UserContextProvider>
+      <PrimeReactProvider>
+        <Router>
+          <LogoutProvider> {/* עטיפת כל היישום עם LogoutProvider */}
+            <LogoutModal /> {/* כאן אנחנו מוסיפים את ה-LogoutModal */}
+            <Routes>
+              <Route path="/" element={<SignUp />} />
+              <Route path="/AddCustomer" element={<AddCustomer />} />
+              <Route path="/CreateCompany" element={<CreateCompany />} />
+              <Route path="/Success" element={<Success />} />
+              <Route path='/Dashboard' element={<Dashboard />} />
+              <Route path='/Customers' element={<Custemers />} />
+              <Route path='/People' element={<People />} />
+              <Route path='/Assesments' element={<Assesments />} />
+              <Route path='/PoliciesProcedures' element={<PoliciesProcedures />} />
+              <Route path='/BAAManagment' element={<BAAManagment />} />
+              <Route path='/LogOut' element={<Logout />} />
+              <Route path="/AddCustomer/CreateProject/" element={<CreateProject />} />
+              {/* Add more routes as needed */}
+            </Routes>
+          </LogoutProvider>
+        </Router>
+      </PrimeReactProvider>
+    </UserContextProvider>
   );
 };
 
