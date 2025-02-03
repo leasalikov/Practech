@@ -9,6 +9,7 @@ import { Checkbox } from "primereact/checkbox";
 import { Divider } from "primereact/divider";
 import { InputSwitch } from "primereact/inputswitch";
 import "../components/SingUp.css";
+import { isValidPhoneNumber } from "react-phone-number-input";
 
 interface FormData {
   firstName: string;
@@ -47,52 +48,32 @@ const SignUpForm = () => {
     agreed: "",
   });
 
-  const validateForm = () => {
-    let formErrors = { ...errors };
+  const validateForm = (): boolean => {
+    const newErrors: Errors = {
+      firstName: formData.firstName ? '' : 'First name is required',
+      lastName: formData.lastName ? '' : 'Last name is required',
+      emailOrPhone: formData.emailOrPhone
+        ? (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.emailOrPhone) || /^\+?[0-9]{10,15}$/.test(formData.emailOrPhone))
+          ? '' : 'Invalid email or phone number'
+        : 'Email or phone number is required',
+      password: formData.password ? (formData.password.length >= 8 ? '' : 'Password must be at least 8 characters long') : 'Password is required',
+      agreed: formData.agreed ? '' : 'You must agree to the terms and conditions',
+      isCompany: ""
+    };
 
-    // Validate first name
-    if (!formData.firstName) {
-      formErrors.firstName = "First name is required";
-    } else {
-      formErrors.firstName = "";
+    setErrors(newErrors);
+    return Object.values(newErrors).every((error) => error === '');
+  };
+
+  const handleChange = (key: string, value: string | boolean | undefined) => {
+    setFormData((prev) => ({ ...prev, [key]: value || '' }));
+    if (key === 'emailOrPhone' && value) {
+      const isValid = isValidPhoneNumber(value as string);
+      setErrors((prev) => ({
+        ...prev,
+        emailOrPhone: isValid ? '' : 'Invalid phone number',
+      }));
     }
-
-    // Validate last name
-    if (!formData.lastName) {
-      formErrors.lastName = "Last name is required";
-    } else {
-      formErrors.lastName = "";
-    }
-
-    // Validate email or phone
-    if (!formData.emailOrPhone) {
-      formErrors.emailOrPhone = "Email or phone number is required";
-    } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.emailOrPhone) && !/^\+?[0-9]{10,15}$/.test(formData.emailOrPhone)) {
-      formErrors.emailOrPhone = "Invalid email or phone number";
-    } else {
-      formErrors.emailOrPhone = "";
-    }
-
-    // Validate password (minimum 8 characters)
-    if (!formData.password) {
-      formErrors.password = "Password is required";
-    } else if (formData.password.length < 8) {
-      formErrors.password = "Password must be at least 8 characters long";
-    } else {
-      formErrors.password = "";
-    }
-
-    // Validate checkbox (agreement)
-    if (!formData.agreed) {
-      formErrors.agreed = "You must agree to the terms and conditions";
-    } else {
-      formErrors.agreed = "";
-    }
-
-    setErrors(formErrors);
-
-    // Check if there are any errors
-    return !Object.values(formErrors).some((error) => error !== "");
   };
 
   const loginWithGoogle = useGoogleLogin({
@@ -162,7 +143,7 @@ const SignUpForm = () => {
             placeholder="Enter your first name"
             className="w-full"
             value={formData.firstName}
-            onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+            onChange={(e) => handleChange('firstName', e.target.value)}
           />
           {errors.firstName && <small className="text-red-500">{errors.firstName}</small>}
         </div>
@@ -172,7 +153,7 @@ const SignUpForm = () => {
             placeholder="Enter your last name"
             className="w-full"
             value={formData.lastName}
-            onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+            onChange={(e) => handleChange('lastName', e.target.value)}
           />
           {errors.lastName && <small className="text-red-500">{errors.lastName}</small>}
         </div>
@@ -182,7 +163,7 @@ const SignUpForm = () => {
             placeholder="Type your e-mail or phone number"
             className="w-full"
             value={formData.emailOrPhone}
-            onChange={(e) => setFormData({ ...formData, emailOrPhone: e.target.value })}
+            onChange={(e) => handleChange('emailOrPhone', e.target.value)}
           />
           {errors.emailOrPhone && <small className="text-red-500">{errors.emailOrPhone}</small>}
         </div>
@@ -194,18 +175,18 @@ const SignUpForm = () => {
             feedback={false}
             className="w"
             value={formData.password}
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+            onChange={(e) => handleChange('password', e.target.value)}
           />
           {errors.password && <small className="text-red-500">{errors.password}</small>}
         </div>
         <div className="form-group flex items-center mb-4">
           <label className="ml-2 text-gray-700">Sign up as company</label>
-          <InputSwitch checked={formData.isCompany} onChange={(e) => setFormData({ ...formData, isCompany: e.value })} />
+          <InputSwitch checked={formData.isCompany} onChange={(e) => handleChange('isCompany', e.value)} />
         </div>
         <div className="form-group flex items-start mb-6">
           <Checkbox
             checked={formData.agreed}
-            onChange={(e) => setFormData({ ...formData, agreed: e.checked || false })}
+            onChange={(e) => handleChange('agreed', e.checked || false)}
           />
           <label className="ml-2 text-sm text-gray-600">
             By creating an account, you agree to the{" "}
