@@ -8,6 +8,21 @@
     background-color: #0056b3; /* צבע כהה יותר בזמן ריחוף */
     border-color: #0056b3;
 }
-.p-float-label {
+/* .p-float-label {
     position: relative;
+} */
+.custom-blue-button {
+    background-color: #007bff; /* צבע כחול */
+    border-color: #007bff;
+    color: white;
+}
+
+.custom-blue-button:hover {
+    background-color: #0056b3; /* צבע כהה יותר בזמן ריחוף */
+    border-color: #0056b3;
+}
+
+.custom-phone-input .PhoneInputInput {
+    height: 40px !important; /* קביעת גובה שדה הקלט */
+    font-size: 14px; /* אפשר לשנות את גודל הגופן אם צריך */
 }

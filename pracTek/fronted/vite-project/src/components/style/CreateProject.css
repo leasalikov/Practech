@@ -131,3 +131,36 @@
 .p-float-label {
     position: relative;
 }
+
+/* סגנון עבור תמונה שנבחרה או הועלתה */
+.custom-uploaded-image {
+  width: 50px;                  /* הגדרת רוחב התמונה */
+  height: 50px;                 /* הגדרת גובה התמונה */
+  object-fit: cover;            /* התמונה תתמקד ותמלא את התיבה מבלי לעוות את התמונה */
+  border-radius: 50%;           /* הופך את התמונה לעגולה */
+  border: 2px solid #ccc;      /* הגדרת גבול אפור קל סביב התמונה */
+  cursor: pointer;             /* משנה את הסמן ל"יד" כשהעכבר עובר מעל התמונה */
+}
+
+/* סגנון עבור כפתור העלאת התמונה */
+.custom-upload-button {
+  width: 50px;                 /* גודל כפתור העלאת התמונה */
+  height: 50px;                /* גודל כפתור העלאת התמונה */
+  border-radius: 50%;          /* הופך את כפתור ההעלאה לעיגול */
+  background-size: cover;      /* ממלא את כפתור העלאת התמונה בתמונה */
+  border: 2px solid #ccc;      /* גבול דק ויפה מסביב לכפתור */
+  cursor: pointer;             /* סמן "יד" כאשר עכבר נמצא מעל */
+}
+
+.p-dropdown {
+  border: none !important;  
+}
+
+.form-group .p-dropdown {
+  border: none !important; 
+  box-shadow: none; 
+}
+
+.form-group .p-dropdown-label {
+  padding-left: 1rem;
+}
