@@ -76,7 +76,7 @@ const AddCustomersForm = () => {
     };
 
     const onUpload = (e: FileUploadHandlerEvent) => {
-        handleChange('file', e.files[0]);
+        // handleChange('file', e.files[0]);
     };
 
     const handleNavigationBack = () => {
