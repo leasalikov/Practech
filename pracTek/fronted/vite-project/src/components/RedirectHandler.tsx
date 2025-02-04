@@ -25,7 +25,7 @@ const RedirectHandler: React.FC = () => {
       instance.handleRedirectPromise().then((response) => {
         if (response && response.accessToken) {
           console.log("Login successful!");
-          navigate("/AddCustomers");  // הפניה לעמוד AddCustomers
+          navigate("/AddCustomer"); 
         } else {
           console.log("No response or access token found.");
         }

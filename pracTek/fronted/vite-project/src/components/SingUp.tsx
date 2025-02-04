@@ -51,6 +51,10 @@ const SignUpForm = () => {
 
   const { instance, accounts } = useMsal();
 
+  const context = useContext(UserContext); 
+  if (!context) {
+    throw new Error('UserProfile must be used within a UserContextProvider');
+  }
   const { setUser } = useContext(UserContext)!;
 
   const [formData, setFormData] = useState<FormData>({
@@ -87,19 +91,16 @@ const SignUpForm = () => {
     return Object.values(newErrors).every((error) => error === '');
   };
 
-
   const handleChange = (key: string, value: string | boolean | undefined) => {
     setFormData((prev) => ({ ...prev, [key]: value || '' }));
-    if (key === 'emailOrPhone' && value) {
+    if (key === 'email' && value) {
       const isValid = isValidPhoneNumber(value as string);
       setErrors((prev) => ({
         ...prev,
-        emailOrPhone: isValid ? '' : 'Invalid phone number',
+        email: isValid ? '' : 'Invalid phone number',
       }));
     }
   };
-
-
 
   const handleSubmit = async () => {
     if (validateForm()) {
@@ -128,62 +129,36 @@ const SignUpForm = () => {
   };
 
   const loginWithGoogle = useGoogleLogin({
-    flow: "auth-code",
-    onSuccess: async (codeResponse) => {
-      console.log("Google Login Success:", codeResponse);
-
+    onSuccess: async (tokenResponse) => {
+      console.log("Google Login Success:", tokenResponse);
       try {
-        // שליחת ה-Code לשרת של Google כדי לקבל Access Token
-        const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams({
-            client_id: "97432148507-pm5arf15v5euedvpli8sb6eesocqm5m3.apps.googleusercontent.com", // הכנס את Client ID שלך מה-Google Console
-            client_secret: "YOUR_CLIENT_SECRET", // הכנס את Client Secret שלך
-            code: codeResponse.code, // הקוד שהתקבל מההתחברות
-            grant_type: "authorization_code",
-            redirect_uri: "http://localhost:5173", // אותו Redirect URI כמו שהגדרת ב-Google Console
-          }),
-
-        });
-
-        const tokenData = await tokenResponse.json();
-        console.log("Google Token Data:", tokenData);
-
-        // בקשה לקבלת פרטי המשתמש
+        // Fetch user data from Google
         const userInfoResponse = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
-          headers: { Authorization: `Bearer ${tokenData.access_token}` },
+          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
         });
         const userInfo = await userInfoResponse.json();
         console.log("Google User Info:", userInfo);
-
         setFormData({
-          first_name: userInfo.given_name,
-          last_name: userInfo.family_name,
-          email: userInfo.email,
+          first_name: userInfo.given_name || "",
+          last_name: userInfo.family_name || "",
+          email: userInfo.email || "",
           password: "",
           isCompany: false,
-          agreed: false,
+          agreed: true,
         });
-
+        setUser(userInfo)
+        console.log("userInfo: ", userInfo)
         setTimeout(() => {
-          console.log("User Data After Update:", userInfo);
-          navigate("/AddCustomers", { state: { userData: userInfo } });
-        }, 500); // דיליי קטן כדי לוודא שהסטייט מתעדכן לפני הניווט
-
+          navigate("/AddCustomer", { state: { formData } });
+        }, 500); // Small delay to ensure state is updated before navigation
       } catch (error) {
-        console.error("Error exchanging code for token:", error);
+        console.error("Error fetching user data:", error);
       }
     },
-    onError: () => {
-      console.log("Google Login Failed");
+    onError: (error) => {
+      console.error("Google Login Failed:", error);
     },
   });
-
-
-
-
-
 
   const handleMicrosoftLogin = async () => {
 
@@ -222,7 +197,7 @@ const SignUpForm = () => {
 
         });
 
-        navigate("/AddCustomers", { state: { userData: userInfo } });
+        navigate("/AddCustomer", { state: { userData: userInfo } });
       } else {
         console.error("No account found after login.");
       }

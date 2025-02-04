@@ -1,7 +1,7 @@
 import React from 'react';
 import { MsalProvider } from '@azure/msal-react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import AddCustomers from './components/DTC/AddCustomers';
+import AddCustomer from './components/MSP/AddCustomer';
 import Success from './components/Success';
 import SignUp from './components/SingUp';
 import CreateCompany from './components/DTC/CreateCompany';
@@ -35,7 +35,7 @@ const App: React.FC = () => {
               <LogoutModal />
               <Routes>
                 <Route path="/" element={<SignUp />} />
-                <Route path="/AddCustomers" element={<AddCustomers />} />
+                <Route path="/AddCustomer" element={<AddCustomer />} />
                 <Route path="/CreateCompany" element={<CreateCompany />} />
                 <Route path="/Success" element={<Success />} />
                 <Route path="/Dashboard" element={<Dashboard />} />
