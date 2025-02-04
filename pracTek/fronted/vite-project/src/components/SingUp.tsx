@@ -1,31 +1,46 @@
-import React, { useState, useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { Button } from "primereact/button";
-import { useNavigate } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import DashboardImage from "../../src/assets/Screenshot 2025-01-27 153239.jpg";
 import { Checkbox } from "primereact/checkbox";
 import { Divider } from "primereact/divider";
 import { InputSwitch } from "primereact/inputswitch";
 import "../components/SingUp.css";
+import { useMsal } from "@azure/msal-react";
+import { useIsAuthenticated } from '@azure/msal-react';
+import { PublicClientApplication } from "@azure/msal-browser";
+import { InteractionType } from "@azure/msal-browser";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { UserContext } from './ContextProvider';
 
 
+
+export const msalConfig = {
+  auth: {
+    clientId: "cae07ffa-36fc-4396-9b87-cb61256b5076",
+    authority: "https://login.microsoftonline.com/common",
+    redirectUri: "http://localhost:5173/",
+  },
+};
+
+export const msalInstance = new PublicClientApplication(msalConfig);
+
+
 interface FormData {
-  firstName: string;
-  lastName: string;
-  emailOrPhone: string;
+  first_name: string;
+  last_name: string;
+  email: string;
   password: string;
   isCompany: boolean;
   agreed: boolean;
 }
-
 interface Errors {
-  firstName: string;
-  lastName: string;
-  emailOrPhone: string;
+  first_name: string;
+  last_name: string;
+  email: string;
   password: string;
   isCompany: string;
   agreed: string;
@@ -33,41 +48,45 @@ interface Errors {
 
 const SignUpForm = () => {
   const navigate = useNavigate();
+
+  const { instance, accounts } = useMsal();
+
   const { setUser } = useContext(UserContext)!;
 
   const [formData, setFormData] = useState<FormData>({
-    firstName: "",
-    lastName: "",
-    emailOrPhone: "",
+    first_name: "",
+    last_name: "",
+    email: "",
     password: "",
     isCompany: false,
     agreed: false,
   });
   const [errors, setErrors] = useState<Errors>({
-    firstName: "",
-    lastName: "",
-    emailOrPhone: "",
+    first_name: "",
+    last_name: "",
+    email: "",
     password: "",
     isCompany: "",
     agreed: "",
   });
 
+
   const validateForm = (): boolean => {
     const newErrors: Errors = {
-      firstName: formData.firstName ? '' : 'First name is required',
-      lastName: formData.lastName ? '' : 'Last name is required',
-      emailOrPhone: formData.emailOrPhone
-        ? (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.emailOrPhone) || /^\+?[0-9]{10,15}$/.test(formData.emailOrPhone))
+      first_name: formData.first_name ? '' : 'First name is required',
+      last_name: formData.last_name ? '' : 'Last name is required',
+      email: formData.email
+        ? (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email) || /^\+?[0-9]{10,15}$/.test(formData.email))
           ? '' : 'Invalid email or phone number'
         : 'Email or phone number is required',
       password: formData.password ? (formData.password.length >= 8 ? '' : 'Password must be at least 8 characters long') : 'Password is required',
       agreed: formData.agreed ? '' : 'You must agree to the terms and conditions',
       isCompany: ""
     };
-
     setErrors(newErrors);
     return Object.values(newErrors).every((error) => error === '');
   };
+
 
   const handleChange = (key: string, value: string | boolean | undefined) => {
     setFormData((prev) => ({ ...prev, [key]: value || '' }));
@@ -80,44 +99,136 @@ const SignUpForm = () => {
     }
   };
 
-  const loginWithGoogle = useGoogleLogin({
-    onSuccess: async (tokenResponse) => {
-      console.log("Google Login Success:", tokenResponse);
+
+
+  const handleSubmit = async () => {
+    if (validateForm()) {
+      console.log("Submitting user data:", formData);
+      setUser(formData);
       try {
-        // Fetch user data from Google
-        const userInfoResponse = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
-          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+        const response = await fetch('http://localhost:5000/api/msps', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log("User created:", data);
+          navigate("/AddCustomer", { state: { formData } });
+        } else {
+          const errorData = await response.json();
+          console.error('Error creating user:', response.statusText, errorData);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+  };
+
+  const loginWithGoogle = useGoogleLogin({
+    flow: "auth-code",
+    onSuccess: async (codeResponse) => {
+      console.log("Google Login Success:", codeResponse);
+
+      try {
+        // שליחת ה-Code לשרת של Google כדי לקבל Access Token
+        const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            client_id: "97432148507-pm5arf15v5euedvpli8sb6eesocqm5m3.apps.googleusercontent.com", // הכנס את Client ID שלך מה-Google Console
+            client_secret: "YOUR_CLIENT_SECRET", // הכנס את Client Secret שלך
+            code: codeResponse.code, // הקוד שהתקבל מההתחברות
+            grant_type: "authorization_code",
+            redirect_uri: "http://localhost:5173", // אותו Redirect URI כמו שהגדרת ב-Google Console
+          }),
+
         });
 
+        const tokenData = await tokenResponse.json();
+        console.log("Google Token Data:", tokenData);
+
+        // בקשה לקבלת פרטי המשתמש
+        const userInfoResponse = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: { Authorization: `Bearer ${tokenData.access_token}` },
+        });
         const userInfo = await userInfoResponse.json();
         console.log("Google User Info:", userInfo);
 
         setFormData({
-          firstName: userInfo.given_name || "",
-          lastName: userInfo.family_name || "",
-          emailOrPhone: userInfo.email || "",
+          first_name: userInfo.given_name,
+          last_name: userInfo.family_name,
+          email: userInfo.email,
           password: "",
           isCompany: false,
-          agreed: true,
+          agreed: false,
         });
 
         setTimeout(() => {
-          navigate("/AddCustomers", { state: { formData } });
-        }, 500); // Small delay to ensure state is updated before navigation
+          console.log("User Data After Update:", userInfo);
+          navigate("/AddCustomers", { state: { userData: userInfo } });
+        }, 500); // דיליי קטן כדי לוודא שהסטייט מתעדכן לפני הניווט
+
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("Error exchanging code for token:", error);
       }
     },
-    onError: (error) => {
-      console.error("Google Login Failed:", error);
+    onError: () => {
+      console.log("Google Login Failed");
     },
   });
 
-  const handleSubmit = () => {
-    if (validateForm()) {
-      console.log(formData);
-      setUser(userData);
-      navigate("/AddCustomers", { state: { formData } });
+
+
+
+
+
+  const handleMicrosoftLogin = async () => {
+
+    try {
+      await instance.loginRedirect({
+        scopes: ["User.Read", "openid", "profile", "email"],
+      });
+
+      console.log("Login redirect triggered");
+
+      const account = accounts[0];
+
+      if (account) {
+        const tokenResponse = await instance.acquireTokenSilent({
+          scopes: ["User.Read"],
+          account: account,
+        });
+
+        const accessToken = tokenResponse.accessToken;
+        console.log("Access Token acquired:", accessToken);
+
+        const userInfoResponse = await fetch("https://graph.microsoft.com/v1.0/me", {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+
+        const userInfo = await userInfoResponse.json();
+        console.log("Microsoft User Info:", userInfo);
+
+        setFormData({
+          first_name: userInfo.given_name,
+          last_name: userInfo.family_name,
+          email: userInfo.email,
+          password: "",
+          isCompany: false,
+          agreed: false,
+
+        });
+
+        navigate("/AddCustomers", { state: { userData: userInfo } });
+      } else {
+        console.error("No account found after login.");
+      }
+
+    } catch (error) {
+      console.error("Microsoft Login Failed:", error);
     }
   };
 
@@ -126,7 +237,7 @@ const SignUpForm = () => {
       {/* Left Section */}
       <div className="left-section">
         <div className="logo-container flex items-center mb-8">
-          <div className="logo-icon">⚡</div>
+          <div className="logo-icon">:zap:</div>
           <span className="logo-text">Dummy</span>
         </div>
         <div className="dashboard-image mb-8">
@@ -140,37 +251,37 @@ const SignUpForm = () => {
       </div>
       {/* Right Section */}
       <div className="right-section">
-        <h1 className="text-3xl font-bold mb-4">Create your account 👋</h1>
+        <h1 className="text-3xl font-bold mb-4">Create your account :wave:</h1>
         <p className="block text-gray-700 mb-2">It’s free and easy</p>
         <div className="form-group">
           <label className="block text-gray-700 mb-2">First name</label>
           <InputText
             placeholder="Enter your first name"
             className="w-full"
-            value={formData.firstName}
-            onChange={(e) => handleChange('firstName', e.target.value)}
+            value={formData.first_name}
+            onChange={(e) => handleChange('first_name', e.target.value)}
           />
-          {errors.firstName && <small className="text-red-500">{errors.firstName}</small>}
+          {errors.first_name && <small className="text-red-500">{errors.first_name}</small>}
         </div>
         <div className="form-group">
           <label className="block text-gray-700 mb-2">Last name</label>
           <InputText
             placeholder="Enter your last name"
             className="w-full"
-            value={formData.lastName}
-            onChange={(e) => handleChange('lastName', e.target.value)}
+            value={formData.last_name}
+            onChange={(e) => handleChange('last_name', e.target.value)}
           />
-          {errors.lastName && <small className="text-red-500">{errors.lastName}</small>}
+          {errors.last_name && <small className="text-red-500">{errors.last_name}</small>}
         </div>
         <div className="form-group">
           <label className="block text-gray-700 mb-2">E-mail or phone number</label>
           <InputText
             placeholder="Type your e-mail or phone number"
             className="w-full"
-            value={formData.emailOrPhone}
-            onChange={(e) => handleChange('emailOrPhone', e.target.value)}
+            value={formData.email}
+            onChange={(e) => handleChange('email', e.target.value)}
           />
-          {errors.emailOrPhone && <small className="text-red-500">{errors.emailOrPhone}</small>}
+          {errors.email && <small className="text-red-500">{errors.email}</small>}
         </div>
         <div className="form-group">
           <label className="block text-gray-700 mb-2">Password</label>
@@ -229,8 +340,7 @@ const SignUpForm = () => {
             className="p-button-rounded p-button-secondary"
             onClick={() => loginWithGoogle()}
           />
-          <Button icon="pi pi-apple" className="p-button-rounded p-button-secondary" />
-          <Button icon="pi pi-facebook" className="p-button-rounded p-button-secondary" />
+          <Button icon="pi pi-microsoft" className="p-button-rounded p-button-secondary" onClick={() => handleMicrosoftLogin()} />
         </div>
       </div>
     </div>

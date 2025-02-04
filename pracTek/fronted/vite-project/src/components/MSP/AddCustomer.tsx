@@ -18,15 +18,15 @@ import { isValidPhoneNumber, parsePhoneNumber, CountryCode } from 'libphonenumbe
 import { UserContext } from '../ContextProvider';
 
 interface FormData {
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     email: string;
     phoneNumber: string;
     file: File | null;
 }
 interface Errors {
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     email: string;
     phoneNumber: string;
     file: string;
@@ -40,22 +40,21 @@ const AddCustomersForm: React.FC = () => {
     }
   
     const { setUser } = context;
-    console.log("AddCustomersForm ", context)
   
     if (!context) {
       return <p>Loading user data...</p>; // במקרה של טעינה או שאין משתמש
     }
 
     const [formData, setFormData] = useState<FormData>({
-        firstName: '',
-        lastName: '',
+        first_name: '',
+        last_name: '',
         email: '',
         phoneNumber: '',
         file: null,
     });
     const [errors, setErrors] = useState<Errors>({
-        firstName: '',
-        lastName: '',
+        first_name: '',
+        last_name: '',
         email: '',
         phoneNumber: '',
         file: '',
@@ -65,8 +64,8 @@ const AddCustomersForm: React.FC = () => {
     };
     const validateForm = (country: CountryCode): boolean => {
         const newErrors: Errors = {
-            firstName: formData.firstName ? '' : 'Required field',
-            lastName: formData.lastName ? '' : 'Required field',
+            first_name: formData.first_name ? '' : 'Required field',
+            last_name: formData.last_name ? '' : 'Required field',
             email: formData.email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/) ? '' : 'Valid email is required',
             phoneNumber: formData.phoneNumber ? validatePhoneNumber(formData.phoneNumber, country) : 'Phone number is required',
             file: formData.file ? '' : 'File is required',
@@ -102,6 +101,28 @@ const AddCustomersForm: React.FC = () => {
             // console.log(phoneNumber)
             if (validateForm(country)) {
                 console.log('Form data is valid:', formData);
+                try {
+                    const response = fetch(`http://localhost:5000/api/msps/${context.user?._id}`, {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify(formData),
+                    });
+                    console.log("response", response)
+                    // if (response) {
+                    //   const data = await response.json();
+                    //   console.log("User created:", data);
+                    //   setUser(data);
+                    //   navigate("/AddCustomer", { state: { formData } });
+                    // } 
+                    // else {
+                    //   const errorData = await response.json();
+                    //   console.error('Error creating user:', response.statusText, errorData);
+                    // }
+                  } catch (error) {
+                    console.error('Error:', error);
+                  }
                 navigate("./CreateProject", { state: { credentials: [] }, replace: true });
             } else {
                 console.log('Form data is invalid');
@@ -151,22 +172,22 @@ const AddCustomersForm: React.FC = () => {
                         {errors.file && <small>{errors.file}</small>}
                     </div>
                     <div className="form-group" style={{ marginBottom: '1rem' }}>
-                        <label htmlFor="firstName">First Name</label>
+                        <label htmlFor="first_name">First Name</label>
                         <InputText
                             placeholder="Enter your email"
-                            id="firstName"
-                            value={formData.firstName}
-                            onChange={(e) => handleChange('firstName', e.target.value)} />
-                        {errors.firstName && <small>{errors.firstName}</small>}
+                            id="first_name"
+                            value={formData.first_name}
+                            onChange={(e) => handleChange('first_name', e.target.value)} />
+                        {errors.first_name && <small>{errors.first_name}</small>}
                     </div>
                     <div className="form-group" style={{ marginBottom: '1rem' }}>
-                        <label htmlFor="lastName">Last Name</label>
+                        <label htmlFor="last_name">Last Name</label>
                         <InputText
                             placeholder="Enter your last name"
-                            id="lastName"
-                            value={formData.lastName}
-                            onChange={(e) => handleChange('lastName', e.target.value)} />
-                        {errors.lastName && <small>{errors.lastName}</small>}
+                            id="last_name"
+                            value={formData.last_name}
+                            onChange={(e) => handleChange('last_name', e.target.value)} />
+                        {errors.last_name && <small>{errors.last_name}</small>}
                     </div>
                     <div className="form-group" style={{ marginBottom: '1rem' }}>
                         <label htmlFor="email">Email</label>

@@ -1,17 +1,30 @@
 import "./style/Header.css"
 import logo from "./icons/logo.png";
+import { useContext } from "react";
+import { UserContext } from './ContextProvider';
 
 const Header: React.FC = () => {
+
+  const context = useContext(UserContext); 
+  if (!context) {
+    throw new Error('UserProfile must be used within a UserContextProvider');
+  }
+
+  const { setUser } = context;
+  console.log("Header ", context)
+  const firstNameLetter = context.user?.first_name[0].toUpperCase();
+  const firstLAstNameLetter = context.user?.last_name[0].toUpperCase();
   return (
+  
     <header className="header">
       <div className="logo">
         <img src={logo} alt="Logo" className="logo-image" />
       </div>
       <div className="user-info">
-        <div className="user-avatar">JR</div>
+        <div className="user-avatar">{`${firstNameLetter}${firstLAstNameLetter}`}</div>
         <div className="user-details">
-          <span className="user-name">Lea Salikov</span>
-          <span className="user-email">company@email.com</span>
+        <span className="user-name">{`${context.user?.first_name} ${context.user?.last_name}`}</span>
+        <span className="user-email">{context.user?.email}</span>
         </div>
       </div>
     </header>
