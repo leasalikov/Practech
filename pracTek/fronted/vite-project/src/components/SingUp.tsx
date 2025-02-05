@@ -103,58 +103,32 @@ const SignUpForm = () => {
     if (validateForm()) {
       console.log("Submitting user data:", formData);
       setUser(formData);
-      try {
-        const response = await fetch('http://localhost:5000/api/msps', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
-        if (response.ok) {
-          const data = await response.json();
-          console.log("User created:", data);
-          navigate("/AddCustomer", { state: { formData } });
-        } else {
-          const errorData = await response.json();
-          console.error('Error creating user:', response.statusText, errorData);
-        }
-      } catch (error) {
-        console.error('Error:', error);
-      }
+      postReq(formData)
     }
   };
-  
-  // const loginWithGoogle = useGoogleLogin({
-  //   onSuccess: async (tokenResponse) => {
-  //     console.log("Google Login Success:", tokenResponse);
-  //     try {
-  //       const userInfoResponse = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
-  //         headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-  //       });
-  //       const userInfo = await userInfoResponse.json();
-  //       console.log("Google User Info:", userInfo);
-  //       setFormData({
-  //         first_name: userInfo.given_name || "",
-  //         last_name: userInfo.family_name || "",
-  //         email: userInfo.email || "",
-  //         password: "",
-  //         isCompany: false,
-  //         agreed: true,
-  //       });
-  //       setUser(userInfo)
-  //       console.log("userInfo: ", userInfo)
-  //       setTimeout(() => {
-  //         navigate("/AddCustomer", { state: { formData } });
-  //       }, 500); // Small delay to ensure state is updated before navigation
-  //     } catch (error) {
-  //       console.error("Error fetching user data:", error);
-  //     }
-  //   },
-  //   onError: (error) => {
-  //     console.error("Google Login Failed:", error);
-  //   },
-  // });
+
+  async function postReq(formData: FormData) {
+    try {
+      const response = await fetch('http://localhost:5000/api/msps', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log("User created:", data);
+        navigate("/AddCustomer", { state: { formData } });
+      } else {
+        const errorData = await response.json();
+        console.error('Error creating user:', response.statusText, errorData);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
   const loginWithGoogle = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       console.log("Google Login Success:", tokenResponse);
@@ -165,19 +139,18 @@ const SignUpForm = () => {
         });
         const userInfo = await userInfoResponse.json();
         console.log("Google User Info:", userInfo);
-        setFormData({
+        const newFormData = {
           first_name: userInfo.given_name || "",
           last_name: userInfo.family_name || "",
-          email: userInfo.email || "",
+          email: userInfo.email,
           password: "",
           isCompany: false,
           agreed: true,
-        });
-        setUser(userInfo)
-        console.log("userInfo: ", userInfo)
-        setTimeout(() => {
-          navigate("/AddCustomer", { state: { formData } });
-        }, 500); // Small delay to ensure state is updated before navigation
+        };
+        setFormData(newFormData);
+        setUser(newFormData)
+        console.log("newFormData: ", newFormData)
+        postReq(newFormData)
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -186,53 +159,18 @@ const SignUpForm = () => {
       console.error("Google Login Failed:", error);
     },
   });
-  const handleMicrosoftLogin = async () => {
 
+  const handleMicrosoftLogin = async () => {
     try {
       await instance.loginRedirect({
         scopes: ["User.Read", "openid", "profile", "email"],
       });
-
-      console.log("Login redirect triggered");
-
-      const account = accounts[0];
-
-      if (account) {
-        const tokenResponse = await instance.acquireTokenSilent({
-          scopes: ["User.Read"],
-          account: account,
-        });
-
-        const accessToken = tokenResponse.accessToken;
-        console.log("Access Token acquired:", accessToken);
-
-        const userInfoResponse = await fetch("https://graph.microsoft.com/v1.0/me", {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
-
-        const userInfo = await userInfoResponse.json();
-        console.log("Microsoft User Info:", userInfo);
-
-        setFormData({
-          first_name: userInfo.given_name,
-          last_name: userInfo.family_name,
-          email: userInfo.email,
-          password: "",
-          isCompany: false,
-          agreed: false,
-
-        });
-
-        navigate("/AddCustomer", { state: { userData: userInfo } });
-      } else {
-        console.error("No account found after login.");
-      }
-
+      // אין צורך להמשיך קוד כאן, כי יש Redirect אמיתי
     } catch (error) {
       console.error("Microsoft Login Failed:", error);
     }
   };
-
+  
   return (
     <div className="signup-container">
       {/* Left Section */}

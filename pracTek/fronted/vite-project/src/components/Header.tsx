@@ -12,7 +12,7 @@ const Header: React.FC = () => {
 
   const { setUser } = context;
   const firstNameLetter = context.user?.first_name[0].toUpperCase();
-  const firstLAstNameLetter = context.user?.last_name[0].toUpperCase();
+  const firstLastNameLetter = context.user?.last_name? context.user?.last_name[0].toUpperCase(): '';
   return (
   
     <header className="header">
@@ -20,7 +20,7 @@ const Header: React.FC = () => {
         <img src={logo} alt="Logo" className="logo-image" />
       </div>
       <div className="user-info">
-        <div className="user-avatar">{`${firstNameLetter}${firstLAstNameLetter}`}</div>
+        <div className="user-avatar">{`${firstNameLetter}${firstLastNameLetter}`}</div>
         <div className="user-details">
         <span className="user-name">{`${context.user?.first_name} ${context.user?.last_name}`}</span>
         <span className="user-email">{context.user?.email}</span>

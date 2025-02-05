@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const MspSchema = new mongoose.Schema({
-  first_name: { type: String, required: true },
-  last_name: { type: String, required: true },
+  first_name: { type: String, },
+  last_name: { type: String, },
   email: { type: String, unique: true },
   phone: { type: String },
   birthday: { type: Date },
