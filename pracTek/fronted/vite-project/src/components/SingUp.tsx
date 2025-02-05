@@ -17,7 +17,6 @@ import { isValidPhoneNumber } from "react-phone-number-input";
 import { UserContext } from './ContextProvider';
 
 
-
 export const msalConfig = {
   auth: {
     clientId: "cae07ffa-36fc-4396-9b87-cb61256b5076",
@@ -48,10 +47,10 @@ interface Errors {
 
 const SignUpForm = () => {
   const navigate = useNavigate();
-
   const { instance, accounts } = useMsal();
+  // const { instance, accounts } = useMsal();
 
-  const context = useContext(UserContext); 
+  const context = useContext(UserContext);
   if (!context) {
     throw new Error('UserProfile must be used within a UserContextProvider');
   }
@@ -160,52 +159,106 @@ const SignUpForm = () => {
     },
   });
 
-  const handleMicrosoftLogin = async () => {
 
+  // const loginWithMicrosoft = async () => {
+
+  //   try {
+  //     await instance.loginRedirect({
+  //       scopes: ["User.Read", "openid", "profile", "email"],
+  //     });
+
+  //     console.log("Login redirect triggered");
+
+  //     const account = accounts[0];
+
+  //     if (account) {
+  //       const tokenResponse = await instance.acquireTokenSilent({
+  //         scopes: ["User.Read"],
+  //         account: account,
+  //       });
+
+  //       const accessToken = tokenResponse.accessToken;
+  //       console.log("Access Token acquired:", accessToken);
+
+  //       const userInfoResponse = await fetch("https://graph.microsoft.com/v1.0/me", {
+  //         headers: { Authorization: `Bearer ${accessToken}` },
+  //       });
+
+  //       const userInfo = await userInfoResponse.json();
+  //       console.log("Microsoft User Info:", userInfo);
+
+  //       setFormData({
+  //         first_name: userInfo.given_name,
+  //         last_name: userInfo.family_name,
+  //         email: userInfo.email,
+  //         password: "",
+  //         isCompany: false,
+  //         agreed: false,
+
+  //       });
+
+  //       navigate("/AddCustomer", { state: { userData: userInfo } });
+  //     } else {
+  //       console.error("No account found after login.");
+  //     }
+
+  //   } catch (error) {
+  //     console.error("Microsoft Login Failed:", error);
+  //   }
+  // };
+
+  
+  const handleMicrosoftLogin = async () => {
+  
+    console.log("Accounts:", accounts);
+  
     try {
       await instance.loginRedirect({
         scopes: ["User.Read", "openid", "profile", "email"],
       });
-
-      console.log("Login redirect triggered");
-
+  
+      console.log("Login redirect successful");
+  
       const account = accounts[0];
-
+  
       if (account) {
         const tokenResponse = await instance.acquireTokenSilent({
           scopes: ["User.Read"],
           account: account,
         });
-
+  
         const accessToken = tokenResponse.accessToken;
         console.log("Access Token acquired:", accessToken);
-
+  
         const userInfoResponse = await fetch("https://graph.microsoft.com/v1.0/me", {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
-
+  
         const userInfo = await userInfoResponse.json();
-        console.log("Microsoft User Info:", userInfo);
-
-        setFormData({
-          first_name: userInfo.given_name,
-          last_name: userInfo.family_name,
-          email: userInfo.email,
+        console.log("Fetched User Info from Microsoft:", userInfo);
+  
+        const userData = {
+          first_name: userInfo.givenName || "",
+          last_name: userInfo.surname || "",
+          email: userInfo.mail || userInfo.userPrincipalName || "",
           password: "",
           isCompany: false,
-          agreed: false,
-
-        });
-
-        navigate("/AddCustomer", { state: { userData: userInfo } });
+          agreed: true,
+        };
+  
+        console.log("Attempting to set user data:", userData);
+        setUser(userData);  // עדכון הקונטקסט
+        console.log("User data set in context successfully");
+  
+        navigate("/AddCustomer", { state: { formData: userData } });
       } else {
         console.error("No account found after login.");
       }
-
     } catch (error) {
       console.error("Microsoft Login Failed:", error);
     }
   };
+  
 
   return (
     <div className="signup-container">
