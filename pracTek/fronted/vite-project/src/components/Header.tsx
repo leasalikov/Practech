@@ -11,7 +11,6 @@ const Header: React.FC = () => {
   }
 
   const { setUser } = context;
-  console.log("Header ", context)
   const firstNameLetter = context.user?.first_name[0].toUpperCase();
   const firstLAstNameLetter = context.user?.last_name[0].toUpperCase();
   return (

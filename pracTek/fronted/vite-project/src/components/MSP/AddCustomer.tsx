@@ -98,9 +98,8 @@ const AddCustomersForm: React.FC = () => {
         try {
             const phoneNumber = parsePhoneNumber(formData.phoneNumber);
             const country = phoneNumber?.country || 'US';
-            // console.log(phoneNumber)
             if (validateForm(country)) {
-                console.log('Form data is valid:', formData);
+                console.log('context', context);
                 try {
                     const response = fetch(`http://localhost:5000/api/msps/${context.user?._id}`, {
                       method: 'POST',
@@ -110,7 +109,7 @@ const AddCustomersForm: React.FC = () => {
                       body: JSON.stringify(formData),
                     });
                     console.log("response", response)
-                    // if (response) {
+                    // if (response.ok) {
                     //   const data = await response.json();
                     //   console.log("User created:", data);
                     //   setUser(data);

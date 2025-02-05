@@ -48,14 +48,13 @@ interface Errors {
 
 const SignUpForm = () => {
   const navigate = useNavigate();
-
   const { instance, accounts } = useMsal();
+  const context = useContext(UserContext);
 
-  const context = useContext(UserContext); 
   if (!context) {
     throw new Error('UserProfile must be used within a UserContextProvider');
   }
-  const { setUser } = useContext(UserContext)!;
+  const { setUser } = context;
 
   const [formData, setFormData] = useState<FormData>({
     first_name: "",
@@ -73,7 +72,6 @@ const SignUpForm = () => {
     isCompany: "",
     agreed: "",
   });
-
 
   const validateForm = (): boolean => {
     const newErrors: Errors = {
@@ -101,7 +99,6 @@ const SignUpForm = () => {
       }));
     }
   };
-
   const handleSubmit = async () => {
     if (validateForm()) {
       console.log("Submitting user data:", formData);
@@ -127,7 +124,37 @@ const SignUpForm = () => {
       }
     }
   };
-
+  
+  // const loginWithGoogle = useGoogleLogin({
+  //   onSuccess: async (tokenResponse) => {
+  //     console.log("Google Login Success:", tokenResponse);
+  //     try {
+  //       const userInfoResponse = await fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+  //         headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+  //       });
+  //       const userInfo = await userInfoResponse.json();
+  //       console.log("Google User Info:", userInfo);
+  //       setFormData({
+  //         first_name: userInfo.given_name || "",
+  //         last_name: userInfo.family_name || "",
+  //         email: userInfo.email || "",
+  //         password: "",
+  //         isCompany: false,
+  //         agreed: true,
+  //       });
+  //       setUser(userInfo)
+  //       console.log("userInfo: ", userInfo)
+  //       setTimeout(() => {
+  //         navigate("/AddCustomer", { state: { formData } });
+  //       }, 500); // Small delay to ensure state is updated before navigation
+  //     } catch (error) {
+  //       console.error("Error fetching user data:", error);
+  //     }
+  //   },
+  //   onError: (error) => {
+  //     console.error("Google Login Failed:", error);
+  //   },
+  // });
   const loginWithGoogle = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       console.log("Google Login Success:", tokenResponse);
@@ -159,7 +186,6 @@ const SignUpForm = () => {
       console.error("Google Login Failed:", error);
     },
   });
-
   const handleMicrosoftLogin = async () => {
 
     try {

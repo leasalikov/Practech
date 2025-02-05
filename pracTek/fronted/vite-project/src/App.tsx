@@ -14,7 +14,7 @@ import PoliciesProcedures from './components/MSP/pages/Policies&Procedures';
 import BAAManagement from './components/MSP/pages/BAAManagment';
 import Logout from './components/LogOut';
 import { msalConfig } from './components/MsalConfig';
-import RedirectHandler from './components/RedirectHandler';
+// import RedirectHandler from './components/RedirectHandler';
 import { PublicClientApplication } from '@azure/msal-browser';
 import { UserContextProvider } from './components/ContextProvider';
 import { PrimeReactProvider } from 'primereact/api';
@@ -30,7 +30,7 @@ const App: React.FC = () => {
       <PrimeReactProvider>
         <MsalProvider instance={msalInstance}>
           <Router>
-            <RedirectHandler />
+            {/* <RedirectHandler /> */}
             <LogoutProvider >
               <LogoutModal />
               <Routes>
