@@ -100,28 +100,28 @@ const AddCustomersForm: React.FC = () => {
             const country = phoneNumber?.country || 'US';
             if (validateForm(country)) {
                 console.log('context', context);
-                try {
-                    const response = fetch(`http://localhost:5000/api/msps/${context.user?._id}`, {
-                      method: 'POST',
-                      headers: {
-                        'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify(formData),
-                    });
-                    console.log("response", response)
-                    // if (response.ok) {
-                    //   const data = await response.json();
-                    //   console.log("User created:", data);
-                    //   setUser(data);
-                    //   navigate("/AddCustomer", { state: { formData } });
-                    // } 
-                    // else {
-                    //   const errorData = await response.json();
-                    //   console.error('Error creating user:', response.statusText, errorData);
-                    // }
-                  } catch (error) {
-                    console.error('Error:', error);
-                  }
+                // try {
+                //     const response = fetch(`http://localhost:5000/api/msps/${context.user?._id}`, {
+                //       method: 'POST',
+                //       headers: {
+                //         'Content-Type': 'application/json',
+                //       },
+                //       body: JSON.stringify(formData),
+                //     });
+                //     console.log("response", response)
+                //     // if (response.ok) {
+                //     //   const data = await response.json();
+                //     //   console.log("User created:", data);
+                //    //   setUser(data);
+                //     //   navigate("/AddCustomer", { state: { formData } });
+                //     // } 
+                //     // else {
+                //     //   const errorData = await response.json();
+                //     //   console.error('Error creating user:', response.statusText, errorData);
+                //     // }
+                //   } catch (error) {
+                //     console.error('Error:', error);
+                //   }
                 navigate("./CreateProject", { state: { credentials: [] }, replace: true });
             } else {
                 console.log('Form data is invalid');

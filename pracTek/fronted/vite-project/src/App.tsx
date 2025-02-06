@@ -8,7 +8,7 @@ import CreateCompany from './components/DTC/CreateCompany';
 import Dashboard from './components/MSP/pages/Dashboard';
 import Customers from './components/MSP/Customers';
 import People from './components/MSP/pages/People';
-import CreateProject from './components/DTC/CreateCompany';
+import CreateProject from './components/MSP/CreateProject';
 import Assessments from './components/MSP/pages/Assesments';
 import PoliciesProcedures from './components/MSP/pages/Policies&Procedures';
 import BAAManagement from './components/MSP/pages/BAAManagment';
@@ -30,7 +30,8 @@ const App: React.FC = () => {
       <PrimeReactProvider>
         <MsalProvider instance={msalInstance}>
           <Router>
-            <RedirectHandler />
+            {/* <RedirectHandler /> */}
+            {location.pathname === '/' && <RedirectHandler />}
             <LogoutProvider >
               <LogoutModal />
               <Routes>
@@ -45,7 +46,7 @@ const App: React.FC = () => {
                 <Route path="/PoliciesProcedures" element={<PoliciesProcedures />} />
                 <Route path="/BAAManagement" element={<BAAManagement />} />
                 <Route path="/Logout" element={<Logout />} />
-                <Route path="/CreateProject" element={<CreateProject />} />
+                <Route path="/AddCustomer/CreateProject" element={<CreateProject />} />
               </Routes>
             </LogoutProvider>
           </Router>
